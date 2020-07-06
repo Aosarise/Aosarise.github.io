@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Something before start说说SpringBoot，这东西其实我是在springMVC之前学的，第一次开发后端也是用这个东西。它的配置难度低到发指，基本上可以说是即开即用。简单来说是一种基于约定的编程。它的配置方式，也就是底层实现是类似于springMVC的纯注解实现，把一个类当成配置文件。学习SpringBoot是方便后期其他知识的学习。&#x2F;&#x2F;说实话我到现在也不知道先上手spri">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" springboot_01_创建">
+<meta property="og:url" content="http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="Something before start说说SpringBoot，这东西其实我是在springMVC之前学的，第一次开发后端也是用这个东西。它的配置难度低到发指，基本上可以说是即开即用。简单来说是一种基于约定的编程。它的配置方式，也就是底层实现是类似于springMVC的纯注解实现，把一个类当成配置文件。学习SpringBoot是方便后期其他知识的学习。&#x2F;&#x2F;说实话我到现在也不知道先上手spri">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-01T08:24:13.000Z">
+<meta property="article:modified_time" content="2020-07-06T06:40:06.846Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> springboot_01_创建</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/07/06/springboot-02-mybatis/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/05/08/spring-01-IOC/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&text= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&is_video=false&description= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= springboot_01_创建&body=Check out this article: http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&name= springboot_01_创建&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&t= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-number">2.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建"><span class="toc-number">3.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录结构说明"><span class="toc-number">4.</span> <span class="toc-text">目录结构说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最简单的controller"><span class="toc-number">5.</span> <span class="toc-text">最简单的controller</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打包成jar包并运行"><span class="toc-number">6.</span> <span class="toc-text">打包成jar包并运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于maven的一些说明，为什么不用写版本"><span class="toc-number">7.</span> <span class="toc-text">关于maven的一些说明，为什么不用写版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#热部署"><span class="toc-number">8.</span> <span class="toc-text">热部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于配置文件"><span class="toc-number">9.</span> <span class="toc-text">关于配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户自定义属性"><span class="toc-number">10.</span> <span class="toc-text">用户自定义属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在application-properties文件里写自定义属性"><span class="toc-number">10.1.</span> <span class="toc-text">在application.properties文件里写自定义属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自己写一个新的文件"><span class="toc-number">10.2.</span> <span class="toc-text">自己写一个新的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#把自定义属性注入类里"><span class="toc-number">10.3.</span> <span class="toc-text">把自定义属性注入类里</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#actuator监控"><span class="toc-number">11.</span> <span class="toc-text">actuator监控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义异常页面"><span class="toc-number">12.</span> <span class="toc-text">自定义异常页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多配置文件"><span class="toc-number">13.</span> <span class="toc-text">多配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件"><span class="toc-number">13.1.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行环境选择"><span class="toc-number">13.2.</span> <span class="toc-text">运行环境选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现类和方法也可以选择"><span class="toc-number">13.3.</span> <span class="toc-text">实现类和方法也可以选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#war包方式"><span class="toc-number">14.</span> <span class="toc-text">war包方式</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         springboot_01_创建
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-07-01T08:24:13.000Z" itemprop="datePublished">2020-07-01</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a> › <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/Spring/">Spring</a> › <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/Spring/SpringBoot/">SpringBoot</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Something-before-start"><a href="#Something-before-start" class="headerlink" title="Something before start"></a>Something before start</h2><p>说说SpringBoot，这东西其实我是在springMVC之前学的，第一次开发后端也是用这个东西。它的配置难度低到发指，基本上可以说是即开即用。简单来说是一种基于约定的编程。它的配置方式，也就是底层实现是类似于springMVC的纯注解实现，把一个类当成配置文件。<br>学习SpringBoot是方便后期其他知识的学习。//说实话我到现在也不知道先上手springboot是不是好事，不过在学了mvc之后才对整个流程有了一定的了解。</p>
+<blockquote>
+<p>目录</p>
+<blockquote>
+<p><a href="#环境">环境</a><br><a href="#创建">idea创建</a><br><a href="#目录结构说明">目录结构说明</a><br><a href="#最简单的controller">最简单的controller</a><br><a href="#打包成jar包并运行">jar包方式运行</a><br><a href="#热部署">热部署</a><br><a href="#关于配置文件">两种配置文件</a><br><a href="#用户自定义属性">用户自定义属性</a><br><a href="#actuator监控">actuator监控</a><br><a href="#自定义异常页面">自定义异常页面</a><br><a href="#多配置文件">多环境配置文件</a><br><a href="#war包方式">war包方式</a></p>
+</blockquote>
+</blockquote>
+<h2 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h2><p>IDE：idea<br>java：JDK10<br>maven：3.6.1</p>
+<h2 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h2><p>new Project (或者某个工程下 new module)<br>-&gt; Spring Initailizr </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Default &#x2F;&#x2F;这个后面有个链接，其实这个是spring提供的生成器 没有idea的也可以用这个链接生成，会生成一个压缩包，解压后可以在idea里add module添加进工程里</span><br><span class="line">group 按照习惯来就好了</span><br><span class="line">artifact 项目名</span><br><span class="line">jdk11 &#x2F;&#x2F;我学习的版本是jdk10，不过这里没有提供，可以后面在配置文件里选择需要的版本</span><br><span class="line">type maven project</span><br><span class="line">packaging jar </span><br><span class="line"></span><br><span class="line">其他的可以不管</span><br><span class="line"></span><br><span class="line">-&gt; web模块</span><br><span class="line">-&gt; finish</span><br></pre></td></tr></table></figure>
+<p>创建完成</p>
+<p>这边可以进pom.xml把jdk改成需要的版本，然后import一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">    &lt;java.version&gt;1.8&lt;&#x2F;java.version&gt;</span><br><span class="line">&lt;&#x2F;properties&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="目录结构说明"><a href="#目录结构说明" class="headerlink" title="目录结构说明"></a>目录结构说明</h2><p>src-&gt;main-&gt;java 下 有我们的包文件，里面的一个application类就是我们的启动类。<br>一般我们的所写的东西都会放在启动类所在包的子包。<br>src-&gt;main-&gt;resource 配置文件目录<br>src-&gt;main-&gt;resource-&gt;application.properties 核心配置文件<br>src-&gt;main-&gt;resource-&gt;templates  thymeleaf相关<br>src-&gt;main-&gt;resource-&gt;static 静态资源文件</p>
+<h2 id="最简单的controller"><a href="#最简单的controller" class="headerlink" title="最简单的controller"></a>最简单的controller</h2><p>在启动类的包下创建 <code>controller</code>包<br>在该包创建类: <code>PrimaryController</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package live.sarise.primary.controller;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">@RestController &#x2F;&#x2F;返回类型以数据形式出现 而不是视图</span><br><span class="line">public class primaryController &#123;</span><br><span class="line">    @GetMapping(&quot;&#x2F;primary&quot;)</span><br><span class="line">    public String someHandle()&#123;</span><br><span class="line">        return &quot;my name is  sarise&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行启动类<br>默认是运行在8080端口<br>在浏览器输入<code>http://localhost:8080/primary</code>就可以看到返回了</p>
+<h2 id="打包成jar包并运行"><a href="#打包成jar包并运行" class="headerlink" title="打包成jar包并运行"></a>打包成jar包并运行</h2><p>idea右侧 maven project -&gt; package 双击<br>然后就可以在target里面找到相应的jar包<br>在命令行里运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar jar包路径</span><br></pre></td></tr></table></figure>
+<p>注意：这里的jdk版本是10，需要吧计算机的Java_Home改成10的版本的路径<br>macOS里就是修改user目录下的 <code>.bash_profile</code>.</p>
+<p>jar包可以放在任意位置//包括服务器</p>
+<h2 id="关于maven的一些说明，为什么不用写版本"><a href="#关于maven的一些说明，为什么不用写版本" class="headerlink" title="关于maven的一些说明，为什么不用写版本"></a>关于maven的一些说明，为什么不用写版本</h2><p>SpringBoot是对spring mvc基础上的一些整合<br>pom.xml文件里的依赖版本号来自父工程的父工程里的dependencyManagement<br>另外在properties里可以进行修改成自己需要的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">    &lt;java.version&gt;10&lt;&#x2F;java.version&gt;</span><br><span class="line">    &lt;spring-framework.version&gt;5.2.7.RELEASE&lt;&#x2F;spring-framework.version&gt;</span><br><span class="line">&lt;&#x2F;properties&gt;</span><br></pre></td></tr></table></figure>
+<p>maven解释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">版本的jar包就有两种判断途径：</span><br><span class="line"></span><br><span class="line">1：如果dependencies里的dependency自己没有声明version元素，那么maven就</span><br><span class="line"></span><br><span class="line">会倒dependencyManagement里面去找有没有对该artifactId和groupId进行过版本声明，如果有，就继承它，如果</span><br><span class="line"></span><br><span class="line">没有就会报错，告诉你必须为dependency声明一个version</span><br><span class="line"></span><br><span class="line">2：如果dependencies中的dependency声明了version，那么无论dependencyManagement中有无对该jar的version声明，都以dependency里的version为准。</span><br><span class="line">转自</span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;blog.csdn.net&#x2F;softmanfly&#x2F;article&#x2F;details&#x2F;50015515</span><br></pre></td></tr></table></figure>
+
+<p>打包完之后其实有两个文件<br>一个是 .jar  也就是运行文件 是正常maven package打的包<br>一个 .original 是spring插件里 repackage打的包，不包含依赖，主要是用户的内容</p>
+<h2 id="热部署"><a href="#热部署" class="headerlink" title="热部署"></a>热部署</h2><p>更新代码自动重启。<br>idea和eclipse不同。eclipse是修改过的文件被保存之后，工程马上重新部署。idea则不同，它对文件会自动保存，idea的整个ide窗口被钝化的时候重新部署(钝化即换成其他的窗口)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--热部署依赖--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-devtools&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>运行那里 -&gt;edit configuration -&gt; On frame deactivation(钝化) 选择 update classes and resources</p>
+<p>//这玩意是debug时候才有效的<br>//这样就配置好了，更改文件之后，会自动重新运行<br>//实际用下来也不是特别方便，就那样吧</p>
+<h2 id="关于配置文件"><a href="#关于配置文件" class="headerlink" title="关于配置文件"></a>关于配置文件</h2><p>主要说说yml文件。<br>它的作用其实和.properties文件本质上差不多，作用一样，只是它把相同的头都放在一起了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.properties:</span><br><span class="line"># 端口</span><br><span class="line">server.port&#x3D;8080</span><br><span class="line"># 上下文路径</span><br><span class="line">#server.servlet.context-path&#x3D;&#x2F;spbl</span><br><span class="line"></span><br><span class="line">.yml</span><br><span class="line">server:</span><br><span class="line">  port: 8080</span><br><span class="line">  servlet:</span><br><span class="line">    context-path: &#x2F;spbl</span><br></pre></td></tr></table></figure>
+<p>yml的缩进、空格都是有意义的。</p>
+<h2 id="用户自定义属性"><a href="#用户自定义属性" class="headerlink" title="用户自定义属性"></a>用户自定义属性</h2><p>举个例子：可以把mysql的属性写在一个自定义的属性文件里或者<code>application.properties</code>里。</p>
+<h3 id="在application-properties文件里写自定义属性"><a href="#在application-properties文件里写自定义属性" class="headerlink" title="在application.properties文件里写自定义属性"></a>在application.properties文件里写自定义属性</h3><p>application.properties:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.port&#x3D;8080</span><br><span class="line"># 自定义属性</span><br><span class="line">author.name&#x3D; sarise</span><br></pre></td></tr></table></figure>
+<p>应用：<code>@Value(&quot;${author.name}&quot;)</code>方式就可以使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class PrimaryController &#123;</span><br><span class="line">    @Value(&quot;$&#123;author.name&#125;&quot;)</span><br><span class="line">    String aName;</span><br><span class="line">    @GetMapping(&quot;&#x2F;some&quot;)</span><br><span class="line">    public String someHandle() &#123;</span><br><span class="line">        return aName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自己写一个新的文件"><a href="#自己写一个新的文件" class="headerlink" title="自己写一个新的文件"></a>自己写一个新的文件</h3><p>resource目录：新创建的文件 <code>custom.properties</code>，在里面写自定义属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">recource:</span><br><span class="line">	application.properties</span><br><span class="line">	custom.properties</span><br></pre></td></tr></table></figure>
+<p>custom.properties：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">author.name&#x3D; sarise</span><br></pre></td></tr></table></figure>
+<p>应用：其实就是添加一个注解<code>@PropertySource</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@PropertySource(value &#x3D; &quot;classpath:custom.properties&quot;,encoding &#x3D; &quot;UTF-8&quot;)</span><br><span class="line">@RestController</span><br><span class="line">public class PrimaryController &#123;...&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="把自定义属性注入类里"><a href="#把自定义属性注入类里" class="headerlink" title="把自定义属性注入类里"></a>把自定义属性注入类里</h3><p>这里被注入的类被称为<code>dto</code>.//这个是代码规范<br>custom.properties：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">author.name&#x3D; sarise</span><br><span class="line">author.city&#x3D; Fujian</span><br><span class="line">author.interest&#x3D; violin</span><br></pre></td></tr></table></figure>
+<p>AuthorDto类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">@PropertySource(&quot;classpath:custom.properties&quot;) &#x2F;&#x2F;和上面一样，配置属性文件</span><br><span class="line">@ConfigurationProperties(&quot;author&quot;) &#x2F;&#x2F;注入author信息</span><br><span class="line">public class AuthorDto &#123;</span><br><span class="line">    private String name;&#x2F;&#x2F;注意要属性要和配置文件里同名</span><br><span class="line">    private String city;</span><br><span class="line">    private String interest;</span><br><span class="line">    &#x2F;&#x2F;省略getter setter等</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">AuthorDto authorDto;</span><br><span class="line"></span><br><span class="line">@GetMapping(&quot;&#x2F;some&quot;)</span><br><span class="line">public String someHandle() &#123;</span><br><span class="line">    return authorDto.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外，属性里也是可以有列表，属性列表，pojo列表，都是一样的，只要同名就能注入。</p>
+<h2 id="actuator监控"><a href="#actuator监控" class="headerlink" title="actuator监控"></a>actuator监控</h2><p>这东西是用来监控管理spring boot应用的，比如健康检查、审计、统计和http追踪</p>
+<p>首先添加依赖 //springboot的世界里，很多东西都只需要倒入包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--actuator监控依赖--&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-actuator&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>配置配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># actuator监控终端 端口和上下文路径</span><br><span class="line"># 8081 &#x2F;a 下的示例url : http:&#x2F;&#x2F;localhost:8081&#x2F;a&#x2F;actuator&#x2F;health</span><br><span class="line">management.server.port&#x3D;8081</span><br><span class="line">management.server.servlet.context-path&#x3D;&#x2F;a</span><br><span class="line"># 基本上下文 默认是&#x2F;actuator 也就是上文没有配置这个上下文，仍然需要写&#x2F;actuator的原因</span><br><span class="line">management.endpoints.web.base-path&#x3D;&#x2F;actuator</span><br><span class="line"># 默认只开了info和health，* 代表所有监控 ,include就是开放，exclude就是关闭</span><br><span class="line">## 注意yml下需要注意格式，这个用的时候搜索一下就好了</span><br><span class="line">management.endpoints.web.exposure.include&#x3D;*</span><br><span class="line">management.endpoints.web.exposure.exclude&#x3D;env,beans</span><br><span class="line"></span><br><span class="line"># 自定义info信息</span><br><span class="line"># http:&#x2F;&#x2F;localhost:8081&#x2F;a&#x2F;actuator&#x2F;info</span><br><span class="line">info.author.name&#x3D; sarise</span><br><span class="line">info.author.url&#x3D; https:&#x2F;&#x2F;aosarise.github.io</span><br><span class="line"></span><br><span class="line"># 从pom.xml读取信息</span><br><span class="line">info.project.groupid&#x3D;@project.groupId@</span><br><span class="line">info.project.artifactId&#x3D;@project.artifactId@</span><br><span class="line">info.project.version&#x3D;@project.version@</span><br><span class="line">info.project.name&#x3D;@project.name@</span><br></pre></td></tr></table></figure>
+
+<h2 id="自定义异常页面"><a href="#自定义异常页面" class="headerlink" title="自定义异常页面"></a>自定义异常页面</h2><p>在resource下创建public文件夹 public下创建error<br>然后直接把html创建在里面就可以了。比如404页面，就创建一个404.html就可以了<br>以下是目录结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">resource</span><br><span class="line">	public</span><br><span class="line">		error</span><br><span class="line">			404.html</span><br><span class="line">			500.html</span><br></pre></td></tr></table></figure>
+
+<h2 id="多配置文件"><a href="#多配置文件" class="headerlink" title="多配置文件"></a>多配置文件</h2><p>实际开发过程中，开发、测试、实际使用的环境一般是不一样的，springboot支持很快的转换。</p>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>首先写配置文件,以下是目录结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resource</span><br><span class="line">	application.properties</span><br><span class="line">	application-dev.properties</span><br><span class="line">	application-pro.properties</span><br></pre></td></tr></table></figure>
+<p>说明：<code>application.properties</code>是总的配置文件，另外两个就是根据实际情况配置的文件，具体不同的地方在于端口或者上下文路径啥的。<br>注意：<code>application-dev.properties</code>中<code>application-</code>部分是固定的，<code>dev</code>部分可以自己定。</p>
+<h3 id="运行环境选择"><a href="#运行环境选择" class="headerlink" title="运行环境选择"></a>运行环境选择</h3><p><code>application.properties</code>文件中选择某具体环境文件。<code>dev</code>就是上面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 进行多环境选择</span><br><span class="line">spring.profiles.active&#x3D;dev</span><br></pre></td></tr></table></figure>
+<p>运行时也可以指定使用的配置文件: 俩横杠后面，直接写入命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar multen-0.0.1-SNAPSHOT.jar --spring.profiles.active&#x3D;pro</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现类和方法也可以选择"><a href="#实现类和方法也可以选择" class="headerlink" title="实现类和方法也可以选择"></a>实现类和方法也可以选择</h3><p>service包的目录：(目录可以一定程度上说明内容了)，<code>pro</code>、<code>dev</code>分别是<code>xxservice</code>的俩实现类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">service</span><br><span class="line">	XXService</span><br><span class="line">	ProXXServiceImpl</span><br><span class="line">	DevXXServiceImpl</span><br></pre></td></tr></table></figure>
+
+<p>只需要对类头标记一个标签 <code>@Profile(&quot;dev&quot;)</code>  注：这个注解也可以放在方法上,<del>不过我一时间觉得没啥用，同名方法写不了，标注在方法上其实没太多意义</del><br>例如：DevXXServiceImpl 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">@Profile(&quot;dev&quot;)</span><br><span class="line">public class DevXXServiceImpl implements  XXService&#123;</span><br><span class="line">    @Override</span><br><span class="line">    public String send() &#123;</span><br><span class="line">        return &quot;dev&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="war包方式"><a href="#war包方式" class="headerlink" title="war包方式"></a>war包方式</h2><p>当然springboot也是支持war包打包的。<br>他和jar包的具体区别是：运行时有自带tomcat，但是打包时没有把tomcat打包进去。意义在于可以将其放在不同的web服务器运行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">使用外部Tomcat运行该 war 文件，有两种方式：</span><br><span class="line">1、把 war 文件直接丢到 tomcat的webapps目录，启动tomcat.</span><br><span class="line">2、使用tomcat - conf - server.xml配置，使用target目录中war包解压的文件夹为项目地址进行部署.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">有大量css、js、html，且需要经常改动的项目，打成 war 包去运行比较方便，因为改动静态资源可以直接覆盖，很快看到改动后的效果，这是 jar 包不能比的</span><br><span class="line">举个‘栗’子：项目打成 jar 包运行，一段时间后，前端要对其中某几个页面样式进行改动那么改动几个css、html后，需要重新打成一个新的 jar 包，上传服务器并运行，这种改动频繁时很不友好，文件大时上传服务器很耗时，那么 war包就能免去这种烦恼，只要覆盖几个css与html即可</span><br><span class="line"></span><br><span class="line">原文链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;zhuyu19911016520&#x2F;java&#x2F;article&#x2F;details&#x2F;82884903</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<p>就这</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#环境"><span class="toc-number">2.</span> <span class="toc-text">环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建"><span class="toc-number">3.</span> <span class="toc-text">创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#目录结构说明"><span class="toc-number">4.</span> <span class="toc-text">目录结构说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最简单的controller"><span class="toc-number">5.</span> <span class="toc-text">最简单的controller</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打包成jar包并运行"><span class="toc-number">6.</span> <span class="toc-text">打包成jar包并运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于maven的一些说明，为什么不用写版本"><span class="toc-number">7.</span> <span class="toc-text">关于maven的一些说明，为什么不用写版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#热部署"><span class="toc-number">8.</span> <span class="toc-text">热部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于配置文件"><span class="toc-number">9.</span> <span class="toc-text">关于配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户自定义属性"><span class="toc-number">10.</span> <span class="toc-text">用户自定义属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#在application-properties文件里写自定义属性"><span class="toc-number">10.1.</span> <span class="toc-text">在application.properties文件里写自定义属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自己写一个新的文件"><span class="toc-number">10.2.</span> <span class="toc-text">自己写一个新的文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#把自定义属性注入类里"><span class="toc-number">10.3.</span> <span class="toc-text">把自定义属性注入类里</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#actuator监控"><span class="toc-number">11.</span> <span class="toc-text">actuator监控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义异常页面"><span class="toc-number">12.</span> <span class="toc-text">自定义异常页面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多配置文件"><span class="toc-number">13.</span> <span class="toc-text">多配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件"><span class="toc-number">13.1.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行环境选择"><span class="toc-number">13.2.</span> <span class="toc-text">运行环境选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现类和方法也可以选择"><span class="toc-number">13.3.</span> <span class="toc-text">实现类和方法也可以选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#war包方式"><span class="toc-number">14.</span> <span class="toc-text">war包方式</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&text= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&is_video=false&description= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= springboot_01_创建&body=Check out this article: http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&title= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&name= springboot_01_创建&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/&t= springboot_01_创建" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

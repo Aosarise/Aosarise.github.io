@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" mysql_03_多表">
+<meta property="og:url" content="http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-16T02:42:49.000Z">
+<meta property="article:modified_time" content="2020-03-27T01:13:06.244Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> mysql_03_多表</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/14/mysql-02-%E5%9F%BA%E7%A1%80/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&text= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&is_video=false&description= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= mysql_03_多表&body=Check out this article: http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&name= mysql_03_多表&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&t= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多表概念"><span class="toc-number">2.</span> <span class="toc-text">多表概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三种连接"><span class="toc-number">3.</span> <span class="toc-text">三种连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页"><span class="toc-number">4.</span> <span class="toc-text">分页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#子查询-不建议用"><span class="toc-number">5.</span> <span class="toc-text">子查询 不建议用</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         mysql_03_多表
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-16T02:42:49.000Z" itemprop="datePublished">2020-02-16</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/mysql/" rel="tag">mysql</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────┐</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨_|_|▨▨▨▨_|▨▨_|_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|_|_|▨▨▨▨▨▨_|_|▨▨_|▨▨_|_|_|_|▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨____▨▨▨▨▨▨▨▨▨_▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F; __&#x2F;__▨_____(_)__▨___▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F;□□□&#x2F;□□□&#x2F;\ \&#x2F; _ &#96;&#x2F; __&#x2F; (_-&lt;&#x2F; -_)▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F;___&#x2F;\_,_&#x2F;_&#x2F;▨&#x2F;_&#x2F;___&#x2F;\__&#x2F;▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">└────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="Something-before-start"><a href="#Something-before-start" class="headerlink" title="Something before start"></a>Something before start</h2><p>Noting</p>
+<h2 id="多表概念"><a href="#多表概念" class="headerlink" title="多表概念"></a>多表概念</h2><ul>
+<li>主键，外键</li>
+<li>主从表：主表有从表的键作为外键</li>
+<li>一对一：外键唯一</li>
+<li>一对多：外键不唯一。（<strong>包含外键</strong>的叫做<strong>多方</strong>）</li>
+<li>多对多：两个一方，通过多方相连。（<strong>包含外键</strong>的叫做<strong>多方</strong>）<br><u>也就是需要一个中间表</u>。</li>
+</ul>
+<p><strong>主表添加 删除外键：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#添加</span><br><span class="line">alter table-name add [constraint][约束名称] foreign key (主表外键字段名) references 从表 (从表主键名)</span><br><span class="line">#约束名称就是给这个约束搞个名称，方便以后删除。</span><br><span class="line"></span><br><span class="line">#删除</span><br><span class="line">alter table table-name drop foreign key 外键约束名称</span><br></pre></td></tr></table></figure>
+
+<p><strong>带外码的表创建</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">create table student(</span><br><span class="line">	sno char(9) primary key,</span><br><span class="line">	sname char(20) unique,</span><br><span class="line">	ssex char(3),</span><br><span class="line">	sage smallint,</span><br><span class="line">	sdept char(20)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"># cpno:先行课</span><br><span class="line">create table course(</span><br><span class="line">	cno char(4) primary key,</span><br><span class="line">	cname char(40),</span><br><span class="line">	cpno char(4), </span><br><span class="line">	ccredit smallint,</span><br><span class="line">	foreign key(cpno) references course(cno)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">create table sc(</span><br><span class="line">	sno char(9),</span><br><span class="line">	cno char(4),</span><br><span class="line">	grade smallint,</span><br><span class="line">	primary key(sno,cno),</span><br><span class="line">	foreign key(sno) references Student(sno),</span><br><span class="line">	foreign key(cno) references Course(cno)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">desc student;</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| sno   | char(9)     | NO   | PRI | NULL    |       |</span><br><span class="line">| sname | char(20)    | YES  | UNI | NULL    |       |</span><br><span class="line">| ssex  | char(3)     | YES  |     | NULL    |       |</span><br><span class="line">| sage  | smallint(6) | YES  |     | NULL    |       |</span><br><span class="line">| sdept | char(20)    | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line"></span><br><span class="line">desc course;</span><br><span class="line">+---------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field   | Type        | Null | Key | Default | Extra |</span><br><span class="line">+---------+-------------+------+-----+---------+-------+</span><br><span class="line">| cno     | char(4)     | NO   | PRI | NULL    |       |</span><br><span class="line">| cname   | char(40)    | YES  |     | NULL    |       |</span><br><span class="line">| cpno    | char(4)     | YES  | MUL | NULL    |       |</span><br><span class="line">| ccredit | smallint(6) | YES  |     | NULL    |       |</span><br><span class="line">+---------+-------------+------+-----+---------+-------+</span><br><span class="line"></span><br><span class="line">desc sc;</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| Field | Type        | Null | Key | Default | Extra |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br><span class="line">| sno   | char(9)     | NO   | PRI | NULL    |       |</span><br><span class="line">| cno   | char(4)     | NO   | PRI | NULL    |       |</span><br><span class="line">| grade | smallint(6) | YES  |     | NULL    |       |</span><br><span class="line">+-------+-------------+------+-----+---------+-------+</span><br></pre></td></tr></table></figure>
+
+<h2 id="三种连接"><a href="#三种连接" class="headerlink" title="三种连接"></a>三种连接</h2><ul>
+<li>交叉连接 cross join</li>
+<li><ul>
+<li>隐式：<code>select * from a,b</code> –只是合并两张表的记录 没有关系可言</li>
+</ul>
+</li>
+<li><ul>
+<li>显式：<code>select * from a cross join b</code> –笛卡尔积</li>
+</ul>
+</li>
+<li>内连接 inner join  即：<strong>等值连接</strong></li>
+<li><ul>
+<li>隐式：<code>select * from a,b where a.id = b.id</code> //这个写法默认作为隐式连接</li>
+</ul>
+</li>
+<li><ul>
+<li>显式：<code>select * from a inner join b on a.id = b.id</code></li>
+</ul>
+</li>
+<li>外连接 分为左 右 全</li>
+<li><ul>
+<li>左：<code>select * from a left join left b on a.id = b.id</code>。另外两个类似写法</li>
+</ul>
+</li>
+<li><ul>
+<li>外连接需要主表（保留表）的概念，左外连接即左表为主表。保留表所有的记录都保留，加上从表的列，如果从表没有记录则补NULL。</li>
+</ul>
+</li>
+<li><ul>
+<li>全外连接（mysql不支持）<code>full join</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><ul>
+<li>逻辑分页：将数据库的数据查询到内存中再进行分页</li>
+<li>物理分页：通过limit关键字，直接在数据库中进行分页，最终返回的数据是分页后的数据。<br>mysql关键字: <code>limit</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select * from table limit [offset] rows;</span><br><span class="line"># offset:偏移量默认为0 可选</span><br><span class="line"># rows:行数</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="子查询-不建议用"><a href="#子查询-不建议用" class="headerlink" title="子查询 不建议用"></a>子查询 <strong>不建议用</strong></h2><p>允许把一个查询嵌套在另一个查询里。<br>子查询，也叫做内部查询，包含内部查询的就叫做外部查询。<br>子查询可以用含普通的select可以包含的任何子句，如join、limit<br>外部查询必须是一下语句之一：select、insert、update、delete<br>//上课的老师说可以插入子查询结果（把结果插到表里），不过我还没试过<br>位置：</p>
+<ul>
+<li>select 中：只能返回一条.</li>
+<li>from后</li>
+<li>where中: 比如 id in (select pid from…)。或者  id = (select pid from…) //=的话只能返回唯一值</li>
+<li>group by , order by 可用，但没啥意义<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">select a.pid,(select b.pname from products b where b.pid &#x3D; 1 ) from products  a;</span><br><span class="line">+-----+---------------------------------------------------+</span><br><span class="line">| pid | (select b.pname from products b where b.pid &#x3D; 1 ) |</span><br><span class="line">+-----+---------------------------------------------------+</span><br><span class="line">|   1 | 泰国大榴莲                                        |</span><br><span class="line">|   2 | 泰国大榴莲                                        |</span><br><span class="line">|   3 | 泰国大榴莲                                        |</span><br><span class="line">|   4 | 泰国大榴莲                                        |</span><br><span class="line">|   5 | 泰国大榴莲                                        |</span><br><span class="line">|   6 | 泰国大榴莲                                        |</span><br><span class="line">+-----+---------------------------------------------------+</span><br><span class="line"></span><br><span class="line">select a.pname from products a where pid in (select pid from products);</span><br><span class="line">+-----------------+</span><br><span class="line">| pname           |</span><br><span class="line">+-----------------+</span><br><span class="line">| 泰国大榴莲      |</span><br><span class="line">| 新疆大枣        |</span><br><span class="line">| 新疆切糕        |</span><br><span class="line">| 十三香          |</span><br><span class="line">| 老干妈          |</span><br><span class="line">| 泰国大榴莲      |</span><br><span class="line">+-----------------+</span><br></pre></td></tr></table></figure>
+逻辑上来说就是返回一个表，或者一个键值对。我目前还不知道有什么使用场景。</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多表概念"><span class="toc-number">2.</span> <span class="toc-text">多表概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三种连接"><span class="toc-number">3.</span> <span class="toc-text">三种连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分页"><span class="toc-number">4.</span> <span class="toc-text">分页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#子查询-不建议用"><span class="toc-number">5.</span> <span class="toc-text">子查询 不建议用</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&text= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&is_video=false&description= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= mysql_03_多表&body=Check out this article: http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&title= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&name= mysql_03_多表&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/&t= mysql_03_多表" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="图片上传​    折腾了好半天之后，我觉得要用GitHub的图床不太靠谱，路径一直有问题，最难受的是经常会本地可以显示，到了远程就拉垮了。 ​    So，最好的办法就是图床咯。我小时候还不知道图床是啥，刚才才知道这玩意就是用来把图存在网络服务器上的，puchi. 先贴几个找到的免费图床 牛图网 ：免费 sm.ms ：免费限量(5g) upload.cc ：免费   另外一个解决方案​    虽然">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Image Upload">
+<meta property="og:url" content="http://aosarise.github.io/2020/02/04/Image-Upload/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="图片上传​    折腾了好半天之后，我觉得要用GitHub的图床不太靠谱，路径一直有问题，最难受的是经常会本地可以显示，到了远程就拉垮了。 ​    So，最好的办法就是图床咯。我小时候还不知道图床是啥，刚才才知道这玩意就是用来把图存在网络服务器上的，puchi. 先贴几个找到的免费图床 牛图网 ：免费 sm.ms ：免费限量(5g) upload.cc ：免费   另外一个解决方案​    虽然">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-04T12:36:55.000Z">
+<meta property="article:modified_time" content="2020-02-04T13:11:30.861Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="markDown">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Image Upload</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/05/Hexo-%E5%92%8C-github-%E6%90%AD%E5%BB%BAblog/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/04/Usage-Of-MarkDown/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/04/Image-Upload/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/04/Image-Upload/&text=Image Upload" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/04/Image-Upload/&is_video=false&description=Image Upload" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Image Upload&body=Check out this article: http://aosarise.github.io/2020/02/04/Image-Upload/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/04/Image-Upload/&name=Image Upload&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/04/Image-Upload/&t=Image Upload" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#图片上传"><span class="toc-number">1.</span> <span class="toc-text">图片上传</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先贴几个找到的免费图床"><span class="toc-number">1.1.</span> <span class="toc-text">先贴几个找到的免费图床</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#另外一个解决方案"><span class="toc-number">2.</span> <span class="toc-text">另外一个解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#首先安装插件-hexo-asset-image"><span class="toc-number">2.1.</span> <span class="toc-text">首先安装插件&#x2F;&#x2F;hexo-asset-image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改插件内容"><span class="toc-number">2.2.</span> <span class="toc-text">修改插件内容</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Image Upload
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-04T12:36:55.000Z" itemprop="datePublished">2020-02-04</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%85%B3%E4%BA%8E%E5%BB%BAblog/">关于建blog</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/markDown/" rel="tag">markDown</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="图片上传"><a href="#图片上传" class="headerlink" title="图片上传"></a>图片上传</h2><p>​    折腾了好半天之后，我觉得要用GitHub的图床不太靠谱，路径一直有问题，最难受的是经常会本地可以显示，到了远程就拉垮了。</p>
+<p>​    So，最好的办法就是图床咯。<del>我小时候还不知道图床是啥，刚才才知道这玩意就是用来把图存在网络服务器上的，puchi</del>.</p>
+<h3 id="先贴几个找到的免费图床"><a href="#先贴几个找到的免费图床" class="headerlink" title="先贴几个找到的免费图床"></a>先贴几个找到的免费图床</h3><blockquote>
+<p><a href="https://niupic.com" target="_blank" rel="noopener">牛图网</a> ：免费</p>
+<p><a href="https://sm.ms" target="_blank" rel="noopener">sm.ms</a> ：免费限量(5g)</p>
+<p><a href="https://upload.cc" target="_blank" rel="noopener">upload.cc</a> ：免费</p>
+</blockquote>
+<hr>
+<h2 id="另外一个解决方案"><a href="#另外一个解决方案" class="headerlink" title="另外一个解决方案"></a>另外一个解决方案</h2><p>​    虽然我用不上😊，不过总有人可以。</p>
+<h3 id="首先安装插件-hexo-asset-image"><a href="#首先安装插件-hexo-asset-image" class="headerlink" title="首先安装插件//hexo-asset-image"></a>首先安装插件//<strong>hexo-asset-image</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install https:&#x2F;&#x2F;github.com&#x2F;CodeFalling&#x2F;hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改插件内容"><a href="#修改插件内容" class="headerlink" title="修改插件内容"></a>修改插件内容</h3><p>/node_modules/hexo-asset-image/index.js，将内容更换为下面的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&#39;use strict&#39;;</span><br><span class="line">var cheerio &#x3D; require(&#39;cheerio&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; http:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;14480345&#x2F;how-to-get-the-nth-occurrence-in-a-string</span><br><span class="line">function getPosition(str, m, i) &#123;</span><br><span class="line">  return str.split(m, i).join(m).length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var version &#x3D; String(hexo.version).split(&#39;.&#39;);</span><br><span class="line">hexo.extend.filter.register(&#39;after_post_render&#39;, function(data)&#123;</span><br><span class="line">  var config &#x3D; hexo.config;</span><br><span class="line">  if(config.post_asset_folder)&#123;</span><br><span class="line">    	var link &#x3D; data.permalink;</span><br><span class="line">	if(version.length &gt; 0 &amp;&amp; Number(version[0]) &#x3D;&#x3D; 3)</span><br><span class="line">	   var beginPos &#x3D; getPosition(link, &#39;&#x2F;&#39;, 1) + 1;</span><br><span class="line">	else</span><br><span class="line">	   var beginPos &#x3D; getPosition(link, &#39;&#x2F;&#39;, 3) + 1;</span><br><span class="line">	&#x2F;&#x2F; In hexo 3.1.1, the permalink of &quot;about&quot; page is like &quot;...&#x2F;about&#x2F;index.html&quot;.</span><br><span class="line">	var endPos &#x3D; link.lastIndexOf(&#39;&#x2F;&#39;) + 1;</span><br><span class="line">    link &#x3D; link.substring(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    var toprocess &#x3D; [&#39;excerpt&#39;, &#39;more&#39;, &#39;content&#39;];</span><br><span class="line">    for(var i &#x3D; 0; i &lt; toprocess.length; i++)&#123;</span><br><span class="line">      var key &#x3D; toprocess[i];</span><br><span class="line"> </span><br><span class="line">      var $ &#x3D; cheerio.load(data[key], &#123;</span><br><span class="line">        ignoreWhitespace: false,</span><br><span class="line">        xmlMode: false,</span><br><span class="line">        lowerCaseTags: false,</span><br><span class="line">        decodeEntities: false</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(&#39;img&#39;).each(function()&#123;</span><br><span class="line">		if ($(this).attr(&#39;src&#39;))&#123;</span><br><span class="line">			&#x2F;&#x2F; For windows style path, we replace &#39;\&#39; to &#39;&#x2F;&#39;.</span><br><span class="line">			var src &#x3D; $(this).attr(&#39;src&#39;).replace(&#39;\\&#39;, &#39;&#x2F;&#39;);</span><br><span class="line">			if(!&#x2F;http[s]*.*|\&#x2F;\&#x2F;.*&#x2F;.test(src) &amp;&amp;</span><br><span class="line">			   !&#x2F;^\s*\&#x2F;&#x2F;.test(src)) &#123;</span><br><span class="line">			  &#x2F;&#x2F; For &quot;about&quot; page, the first part of &quot;src&quot; can&#39;t be removed.</span><br><span class="line">			  &#x2F;&#x2F; In addition, to support multi-level local directory.</span><br><span class="line">			  var linkArray &#x3D; link.split(&#39;&#x2F;&#39;).filter(function(elem)&#123;</span><br><span class="line">				return elem !&#x3D; &#39;&#39;;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  var srcArray &#x3D; src.split(&#39;&#x2F;&#39;).filter(function(elem)&#123;</span><br><span class="line">				return elem !&#x3D; &#39;&#39; &amp;&amp; elem !&#x3D; &#39;.&#39;;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  if(srcArray.length &gt; 1)</span><br><span class="line">				srcArray.shift();</span><br><span class="line">			  src &#x3D; srcArray.join(&#39;&#x2F;&#39;);</span><br><span class="line">			  $(this).attr(&#39;src&#39;, config.root + link + src);</span><br><span class="line">			  console.info&amp;&amp;console.info(&quot;update link as:--&gt;&quot;+config.root + link + src);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			console.info&amp;&amp;console.info(&quot;no src attr, skipped...&quot;);</span><br><span class="line">			console.info&amp;&amp;console.info($(this));</span><br><span class="line">		&#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      data[key] &#x3D; $.html();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>原因是现在版本的url获取不太一样。</p>
+<p>改完之后post 新的 blog 就会有同名文件夹，然后即可直接写图片的地址。不过只有本地可以看<del>不排除是我的网络垃圾</del></p>
+<hr>
+<p>就酱</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#图片上传"><span class="toc-number">1.</span> <span class="toc-text">图片上传</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#先贴几个找到的免费图床"><span class="toc-number">1.1.</span> <span class="toc-text">先贴几个找到的免费图床</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#另外一个解决方案"><span class="toc-number">2.</span> <span class="toc-text">另外一个解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#首先安装插件-hexo-asset-image"><span class="toc-number">2.1.</span> <span class="toc-text">首先安装插件&#x2F;&#x2F;hexo-asset-image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改插件内容"><span class="toc-number">2.2.</span> <span class="toc-text">修改插件内容</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/04/Image-Upload/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/04/Image-Upload/&text=Image Upload" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/04/Image-Upload/&is_video=false&description=Image Upload" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Image Upload&body=Check out this article: http://aosarise.github.io/2020/02/04/Image-Upload/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/04/Image-Upload/&title=Image Upload" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/04/Image-Upload/&name=Image Upload&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/04/Image-Upload/&t=Image Upload" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

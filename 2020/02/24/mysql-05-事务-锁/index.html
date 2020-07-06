@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" mysql_05_事务_锁">
+<meta property="og:url" content="http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-24T07:47:09.000Z">
+<meta property="article:modified_time" content="2020-02-25T12:08:01.560Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> mysql_05_事务_锁</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/26/mysql-06-%E4%B8%BB%E4%BB%8E-MyCat/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&text= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&is_video=false&description= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= mysql_05_事务_锁&body=Check out this article: http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&name= mysql_05_事务_锁&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&t= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL-事务支持"><span class="toc-number">2.</span> <span class="toc-text">MySQL 事务支持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单使用"><span class="toc-number">2.1.</span> <span class="toc-text">简单使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#开启事务，更改数据。"><span class="toc-number">2.1.1.</span> <span class="toc-text">开启事务，更改数据。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#提交"><span class="toc-number">2.1.2.</span> <span class="toc-text">提交</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务并发问题"><span class="toc-number">3.</span> <span class="toc-text">事务并发问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL锁"><span class="toc-number">4.</span> <span class="toc-text">MySQL锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#表级锁"><span class="toc-number">4.1.</span> <span class="toc-text">表级锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#行级锁"><span class="toc-number">4.2.</span> <span class="toc-text">行级锁</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         mysql_05_事务_锁
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-24T07:47:09.000Z" itemprop="datePublished">2020-02-24</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/mysql/" rel="tag">mysql</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────┐</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨_|_|▨▨▨▨_|▨▨_|_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|_|_|▨▨▨▨▨▨_|_|▨▨_|▨▨_|_|_|_|▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨____▨▨▨▨▨▨▨▨▨_▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F; __&#x2F;__▨_____(_)__▨___▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F;□□□&#x2F;□□□&#x2F;\ \&#x2F; _ &#96;&#x2F; __&#x2F; (_-&lt;&#x2F; -_)▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F;___&#x2F;\_,_&#x2F;_&#x2F;▨&#x2F;_&#x2F;___&#x2F;\__&#x2F;▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">└────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<h2 id="Something-before-start"><a href="#Something-before-start" class="headerlink" title="Something before start"></a>Something before start</h2><p>Mysql 只有用了Innodb引擎的数据库才支持食物。<br>事务一般用来管理 DDL，DML，DCL语句 如 insert,update,delete等。默认是自动提交的<br>一般来说，事务有4个属性。</p>
+<ol>
+<li>Atomicity 原子性 ：所有的操作必须是一个逻辑单元，只能<strong>全部执行</strong>或<strong>全部不执行</strong>。</li>
+<li>Consistency 稳定性 一致性：数据库在事务执行前后状态都是稳定一致的。(即整体状态没有错误，不会出现脏数据)</li>
+<li>Isolation 隔离性：事务之间不会相互影响。(关系到锁)</li>
+<li>Durability 可靠性：事务成功后必须全部写入磁盘。</li>
+</ol>
+<h2 id="MySQL-事务支持"><a href="#MySQL-事务支持" class="headerlink" title="MySQL 事务支持"></a>MySQL 事务支持</h2><p>常见操作：<br><code>begin</code> <code>star transaction</code>： 显式开启一个事务。<br><code>commit</code>：提交事务。<br><code>rollback</code>：回滚。</p>
+<h3 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h3><h4 id="开启事务，更改数据。"><a href="#开启事务，更改数据。" class="headerlink" title="开启事务，更改数据。"></a>开启事务，更改数据。</h4><p>终端1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">select * from user;</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">| id | name | age  | addree |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">|  1 | s    | 1    | hahah  |</span><br><span class="line">|  2 | a    | 2    | xi     |</span><br><span class="line">|  3 | r    | 3    | bbb    |</span><br><span class="line">|  4 | i    | 4    | h      |</span><br><span class="line">|  5 | s    | 5    | h      |</span><br><span class="line">|  6 | e    | 6    | x      |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line"></span><br><span class="line">begin;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">insert into user values (7,&#39;a&#39;,7,&#39;w&#39;);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br><span class="line"></span><br><span class="line">#这里有数据是因为这里是从本地的缓存里取出来的。</span><br><span class="line">select * From user;</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">| id | name | age  | addree |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">|  1 | s    | 1    | hahah  |</span><br><span class="line">|  2 | a    | 2    | xi     |</span><br><span class="line">|  3 | r    | 3    | bbb    |</span><br><span class="line">|  4 | i    | 4    | h      |</span><br><span class="line">|  5 | s    | 5    | h      |</span><br><span class="line">|  6 | e    | 6    | x      |</span><br><span class="line">|  7 | a    | 7    | w      |</span><br><span class="line">+----+------+------+--------+</span><br></pre></td></tr></table></figure>
+<p>终端2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#开启另外一个终端</span><br><span class="line">select * from user;</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">| id | name | age  | addree |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">|  1 | s    | 1    | hahah  |</span><br><span class="line">|  2 | a    | 2    | xi     |</span><br><span class="line">|  3 | r    | 3    | bbb    |</span><br><span class="line">|  4 | i    | 4    | h      |</span><br><span class="line">|  5 | s    | 5    | h      |</span><br><span class="line">|  6 | e    | 6    | x      |</span><br><span class="line">+----+------+------+--------+</span><br></pre></td></tr></table></figure>
+<h4 id="提交"><a href="#提交" class="headerlink" title="提交"></a>提交</h4><p>终端1:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">commit;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>终端2:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> select * from user;</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">| id | name | age  | addree |</span><br><span class="line">+----+------+------+--------+</span><br><span class="line">|  1 | s    | 1    | hahah  |</span><br><span class="line">|  2 | a    | 2    | xi     |</span><br><span class="line">|  3 | r    | 3    | bbb    |</span><br><span class="line">|  4 | i    | 4    | h      |</span><br><span class="line">|  5 | s    | 5    | h      |</span><br><span class="line">|  6 | e    | 6    | x      |</span><br><span class="line">|  7 | a    | 7    | w      |</span><br><span class="line">+----+------+------+--------+</span><br></pre></td></tr></table></figure>
+
+<h2 id="事务并发问题"><a href="#事务并发问题" class="headerlink" title="事务并发问题"></a>事务并发问题</h2><ol>
+<li>丢失更新：一个事务更新之后，另一个事务也更新了。但是第二个事务回滚了，第一个事务就被回滚了。</li>
+<li>脏读：一个事务查询到另一个事务未提交的数据</li>
+<li>不可重复读：同一条记录被查询两次的结果不一样(因为update操作)</li>
+<li>幻读：对同一张表进行操作，两次查询的结果行数不一样(因为insert 或者 delete操作)</li>
+</ol>
+<p>为了避免问题，Sql提出了四种隔离级别（越来越高，高级别影响并发）</p>
+<ol>
+<li>Read uncommit 读未提交</li>
+<li>Read committed 读已提交</li>
+<li>Repeatable read 可重复读：锁行</li>
+<li>Serializable 串行化：锁表</li>
+</ol>
+<p>MySQL 默认Repeatable read。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 查看当前事务隔离级别</span><br><span class="line">select @@tx_isolation;</span><br><span class="line">+-----------------+</span><br><span class="line">| @@tx_isolation  |</span><br><span class="line">+-----------------+</span><br><span class="line">| REPEATABLE-READ |</span><br><span class="line">+-----------------+</span><br><span class="line"></span><br><span class="line">#设置隔离级别</span><br><span class="line">set [globle|session] transaction isolation level 隔离级别名称;</span><br></pre></td></tr></table></figure>
+
+<h2 id="MySQL锁"><a href="#MySQL锁" class="headerlink" title="MySQL锁"></a>MySQL锁</h2><p>为了保证数据一致性。不同的存储引擎的锁也有区别。<br>三个级别的锁：行级锁定，页级，表级<br>按照粒度来分：行级锁，表级锁<br>按照功能来分：共享读锁和排他写锁<br>悲观锁：排他写锁<br>乐观锁：使用某一版本列，或唯一列进行<strong>逻辑控制</strong><br>MySQL的innoDB和MYISAM最大的区别：事务，行级锁(Myisam没有)</p>
+<h3 id="表级锁"><a href="#表级锁" class="headerlink" title="表级锁"></a>表级锁</h3><p>两种模式：表共享读锁，表排他写锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">show status like &#39;table%&#39;;</span><br><span class="line">+----------------------------+-------+</span><br><span class="line">| Variable_name              | Value |</span><br><span class="line">+----------------------------+-------+</span><br><span class="line">| Table_locks_immediate      | 131   |</span><br><span class="line">| Table_locks_waited         | 0     |</span><br><span class="line">| Table_open_cache_hits      | 4     |</span><br><span class="line">| Table_open_cache_misses    | 3     |</span><br><span class="line">| Table_open_cache_overflows | 0     |</span><br><span class="line">+----------------------------+-------+</span><br><span class="line">#Table_locks_waited:出现表级锁争用发生等待的次数</span><br><span class="line">#Table_locks_immediate：产生表锁的次数</span><br><span class="line"></span><br><span class="line">#开启user表共享读锁 即其他的终端只能查询，更新数据需要排队等开锁，本地终端没法更新</span><br><span class="line">lock table user read;</span><br><span class="line">unlock tables;</span><br><span class="line"></span><br><span class="line">#写锁，其他的终端查询都需要排队，本地终端可更新</span><br><span class="line">lock table user write;</span><br></pre></td></tr></table></figure>
+
+<h3 id="行级锁"><a href="#行级锁" class="headerlink" title="行级锁"></a>行级锁</h3><p>innoDB行锁是通过给<strong>索引</strong>上锁实现的。给索引前后都加上信息(信息在两条记录的间隙，所以也叫<strong>间隙锁</strong>)。他会把叶结点(InnoDB B+树,叶结点数据且<strong>带有顺序</strong>)的一个<strong>连续区间</strong>上锁。<br>增删改，InnoDB自动加排他锁。</p>
+<ul>
+<li>共享锁：允许一个事务去读一行，阻止其他事务获取相同数据集</li>
+<li>排他所：允许获得排他锁的事务更新，阻止其他事务取得相同数据集的共享读锁</li>
+<li>意向共享锁：暂时不需要了解</li>
+<li>意向排他所：暂时不需要了解<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#查看锁状态</span><br><span class="line">show status like &#39;innodb_row_lock%&#39;;</span><br><span class="line">+-------------------------------+-------+</span><br><span class="line">| Variable_name                 | Value |</span><br><span class="line">+-------------------------------+-------+</span><br><span class="line">| Innodb_row_lock_current_waits | 0     | 当前正在等待锁的数量</span><br><span class="line">| Innodb_row_lock_time          | 0     | 从启动到现在的锁定时间</span><br><span class="line">| Innodb_row_lock_time_avg      | 0     | 从系统到现在等待平均时间</span><br><span class="line">| Innodb_row_lock_time_max      | 0     | 最长时间</span><br><span class="line">| Innodb_row_lock_waits         | 0     | 总共等待次数</span><br><span class="line">+-------------------------------+-------+</span><br></pre></td></tr></table></figure>
+所以有加上索引，才会变成行锁。不然就会变成表锁。然后这个一般不用自己手动开，进行事务的时候会自动开上，如果没有索引就会升级成表锁。<br>间隙锁会带来插入问题：因为一次锁起来的是做了标记的区间，但是这个区间可能会包含不想锁上的数据，或者这个间隙之间的key无法插入。比如在这个区间上锁<code>(1,2,4)</code>,3就无法插入。<br>使用共同索引也会阻塞：已经给<code>a</code>上了索引，进行<code>...where a=1,b=&#39;b1&#39;</code>, <code>...where a=1,b=&#39;b2&#39;</code>被阻塞。</li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL-事务支持"><span class="toc-number">2.</span> <span class="toc-text">MySQL 事务支持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单使用"><span class="toc-number">2.1.</span> <span class="toc-text">简单使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#开启事务，更改数据。"><span class="toc-number">2.1.1.</span> <span class="toc-text">开启事务，更改数据。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#提交"><span class="toc-number">2.1.2.</span> <span class="toc-text">提交</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务并发问题"><span class="toc-number">3.</span> <span class="toc-text">事务并发问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL锁"><span class="toc-number">4.</span> <span class="toc-text">MySQL锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#表级锁"><span class="toc-number">4.1.</span> <span class="toc-text">表级锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#行级锁"><span class="toc-number">4.2.</span> <span class="toc-text">行级锁</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&text= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&is_video=false&description= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= mysql_05_事务_锁&body=Check out this article: http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&title= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&name= mysql_05_事务_锁&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/&t= mysql_05_事务_锁" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

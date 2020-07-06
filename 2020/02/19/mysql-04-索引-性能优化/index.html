@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" mysql_04_索引_性能优化">
+<meta property="og:url" content="http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-19T08:23:08.000Z">
+<meta property="article:modified_time" content="2020-02-25T12:22:03.511Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> mysql_04_索引_性能优化</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/24/mysql-05-%E4%BA%8B%E5%8A%A1-%E9%94%81/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&text= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&is_video=false&description= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= mysql_04_索引_性能优化&body=Check out this article: http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&name= mysql_04_索引_性能优化&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&t= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引"><span class="toc-number">2.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#索引使用"><span class="toc-number">2.1.</span> <span class="toc-text">索引使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#explain"><span class="toc-number">3.</span> <span class="toc-text">explain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#慢查询"><span class="toc-number">4.</span> <span class="toc-text">慢查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#showprofile"><span class="toc-number">5.</span> <span class="toc-text">showprofile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化细节"><span class="toc-number">6.</span> <span class="toc-text">优化细节</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         mysql_04_索引_性能优化
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-19T08:23:08.000Z" itemprop="datePublished">2020-02-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/mysql/" rel="tag">mysql</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────┐</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨_|_|▨▨▨▨_|▨▨_|_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|_|_|▨▨▨▨▨▨_|_|▨▨_|▨▨_|_|_|_|▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨____▨▨▨▨▨▨▨▨▨_▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F; __&#x2F;__▨_____(_)__▨___▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F;□□□&#x2F;□□□&#x2F;\ \&#x2F; _ &#96;&#x2F; __&#x2F; (_-&lt;&#x2F; -_)▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F;___&#x2F;\_,_&#x2F;_&#x2F;▨&#x2F;_&#x2F;___&#x2F;\__&#x2F;▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">└────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Something-before-start"><a href="#Something-before-start" class="headerlink" title="Something before start"></a>Something before start</h2><p>性能优化需要 先用慢查询找到运行时间长的sql语句，然后explain分析，然后show profile查看sql执行时的性能问题。<br><a href="#索引">索引</a><br><a href="#explain">explain</a><br><a href="#慢查询">慢查询</a><br><a href="#showprofile">show profile</a></p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p><strong>目的</strong>：优化查询速度<br><strong>他是</strong>：一种特殊文件，或者数据结构（是表空间的一个组成部分）。包含所有记录的引用指针（类似于字典）<br>他在<strong>存储引擎</strong>实现的。MyISAM和InnoDB只支持B+Tree索引（b+树）//MyISAM 树结点直接指向数据，而InnoDB树结点先指向主键树结点。<br><strong>B tree与B+tree</strong>:  树的高度一般是2～4(树高影响IO读写次数).三层树结构可支撑的数据到达20g。<br><strong>B tree与B+tree区别</strong>：B+tree只有叶结点存值，而且都在同一层，数据有指针指向，有序。利于查询。<br><strong>非聚集索引</strong>：叶结点只存储数据行指针，数据和索引不在一起。主键索引和辅助索引都会存储指针。<br><strong>聚集索引(MYSQL innoDB)</strong>：主键索引的叶结点会存储数据行。如果没有主键，就是用唯一索引建立聚集索引。如果没有唯一索引，mysql会一定规则自动创建索引。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">MyISAM</span><br><span class="line">            index tree                     ┌───────┐</span><br><span class="line">            ┌───────┐                      │data   │</span><br><span class="line">            │   │   │                      │       │</span><br><span class="line">     ┌──────┴───┼───┴─────────┐            │       │</span><br><span class="line">     │          ▼             ▼            │       │</span><br><span class="line">     ▼       ┌─────┐      ┌──────┐         │       │</span><br><span class="line">  ┌─────┐    │     │      │      │         │       │</span><br><span class="line">  │  │  │    └─────┘      └──────┘         │       │</span><br><span class="line">  └─┬┴──┴─────┬──────────┐                 │       │</span><br><span class="line">    ▼         ▼          ▼                 │       │</span><br><span class="line">┌───────┐ ┌───────┐ ┌────────┐ ┌───────┐   │       │</span><br><span class="line">│       │&gt;│       │&gt;│        │&gt;│       │   │       │</span><br><span class="line">└───────┘ └───────┘ └────────┘ └───────┘   └───────┘</span><br><span class="line">    │                                          ▲</span><br><span class="line">    │                                          │</span><br><span class="line">    └──────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">InnoDB</span><br><span class="line">             主键索引</span><br><span class="line">            ┌───────┐                                 name_index</span><br><span class="line">            │   │   │                                 ┌───────┐</span><br><span class="line">     ┌──────┴───┼───┴─────────┐                       │   │   │</span><br><span class="line">     │          ▼             ▼                ┌──────┴───┼───┴─────────┐</span><br><span class="line">     ▼       ┌─────┐      ┌──────┐             ▼          ▼             ▼</span><br><span class="line">  ┌─────┐    │     │      │      │          ┌─────┐    ┌─────┐      ┌──────┐</span><br><span class="line">  │  │  │    └─────┘      └──────┘          │     │    │     │      │      │</span><br><span class="line">  └─┬┴──┴─────┬──────────┐                  └─────┘    └─────┘      └──────┘</span><br><span class="line">    ▼         ▼          ▼                     │</span><br><span class="line">┌───────┐ ┌───────┐ ┌────────┐ ┌───────┐       │</span><br><span class="line">│ data  │&gt;│       │&gt;│        │&gt;│       │       │</span><br><span class="line">└───────┘ └───────┘ └────────┘ └───────┘       │</span><br><span class="line">    ▲                                          │</span><br><span class="line">    │                                          │</span><br><span class="line">    └──────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<p>（另外memory和heap除了b+还支持hash索引。）<br><strong>索引分类</strong>：<br>索引加在单列上为单列索引，加在多列则为组合索引。</p>
+<ol>
+<li><code>单列索引</code>：分为</li>
+</ol>
+<ul>
+<li><code>普通索引</code>：基本索引类型，无限制，可重复可NULL</li>
+<li><code>唯一索引</code>：值必须唯一，可NULL</li>
+<li><code>主键</code>：必须唯一，非NULL</li>
+</ul>
+<ol start="2">
+<li><code>组合索引</code>：遵循<strong>最左前缀</strong>集合。<br>最左前缀集合: n列，靠左<code>1~n</code>个列的组合都会创建相应索引。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(name age)两列创建索引 会创建两个 一个是(name age)索引 以及 (name)索引</span><br><span class="line">在以下两种情况会用到索引</span><br><span class="line">where name &#x3D; &#39;s&#39; and age &#x3D; 18 &#x2F;&#x2F;不能交换顺序 查询也要符合最左前缀</span><br><span class="line">where name &#x3D; &#39;s&#39;</span><br></pre></td></tr></table></figure></li>
+<li><code>全文索引</code>：只在MyISAM 并且只能在char,varchar,text类型的字段上使用。</li>
+<li><code>空间索引</code>：基本用不上</li>
+</ol>
+<h3 id="索引使用"><a href="#索引使用" class="headerlink" title="索引使用"></a>索引使用</h3><p><u>创建</u></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#单列索引</span><br><span class="line">#普通索引 [length]只有文字类型才需要写</span><br><span class="line">create index index_name on table(column[length])</span><br><span class="line">alter table table_name add index index_name on (column[length])</span><br><span class="line">#唯一索引</span><br><span class="line">create unique index index_name on table(column[length])</span><br><span class="line">#全文索引</span><br><span class="line">create fulltext index index_name on table(column[length])</span><br><span class="line"></span><br><span class="line">#组合索引</span><br><span class="line">alter table table_name add index_column1_column2 (column1(length),column2(length));</span><br><span class="line"></span><br><span class="line">#删除索引</span><br><span class="line">drop index index_name on table</span><br></pre></td></tr></table></figure>
+<p><u>使用实例</u><br>当前表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; desc user;</span><br><span class="line">+--------+------------------+------+-----+---------+----------------+</span><br><span class="line">| Field  | Type             | Null | Key | Default | Extra          |</span><br><span class="line">+--------+------------------+------+-----+---------+----------------+</span><br><span class="line">| id     | int(11) unsigned | NO   | PRI | NULL    | auto_increment |</span><br><span class="line">| name   | varchar(50)      | YES  |     | NULL    |                |</span><br><span class="line">| age    | char(1)          | YES  |     | NULL    |                |</span><br><span class="line">| addree | varchar(200)     | YES  |     | NULL    |                |</span><br><span class="line">+--------+------------------+------+-----+---------+----------------+</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">-- -创建索引</span><br><span class="line">create index idx_name on user(name(50));</span><br><span class="line">Query OK, 0 rows affected (0.01 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"></span><br><span class="line">#explain 查看执行计划，可以看到优化器优化之后的结果。</span><br><span class="line">#type：ref表示使用了索引</span><br><span class="line">#possible_key：可能用到的索引</span><br><span class="line">#key：实际索引</span><br><span class="line">#key_len：索引长度（短了好）</span><br><span class="line">EXPLAIN select * from USER where name &#x3D;&#39;id&#39;;</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key      | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | USER  | NULL       | ref  | idx_name      | idx_name | 53      | const |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line"></span><br><span class="line">#主键会自动带上主键索引</span><br><span class="line">EXPLAIN select * from USER where id &#x3D;1;</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type  | possible_keys | key     | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | USER  | NULL       | const | PRIMARY       | PRIMARY | 4       | const |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<p>使用索引注意事项：<br><strong>最左前缀原则，注意创建顺序</strong>：(和<code>where</code>语句有关)<br>查询的时候，如果只有一部分有索引，那就最左的部分用索引，然后从取出来的行结构过滤。<br><strong>索引覆盖</strong>：如果一个索引包含所有<strong><code>需要查询的字段</code></strong>的值，称为‘覆盖索引’。即只需扫描索引而无须回表。用<code>explain</code>会出现：<code>extra=using index</code>。(和select 的列有关)<br><strong>尽量创建组合索引</strong>：一次IO就会创建多组索引</p>
+<h2 id="explain"><a href="#explain" class="headerlink" title="explain"></a>explain</h2><p>使用 select 前面加上 explain。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN select * from USER where id &#x3D;1;</span><br></pre></td></tr></table></figure>
+<p>参数：</p>
+<ul>
+<li>id：识别标识符</li>
+<li>select_type：查询类型。<br>SIMPLE, 表示此查询不包含 UNION 查询或子查询<br>PRIMARY, 表示此查询是最外层的查询<br>UNION, 表示此查询是 UNION 的第二或随后的查询<br>DEPENDENT UNION, UNION 中的第二个或后面的查询语句, 取决于外面的查询<br>UNION RESULT, UNION 的结果<br>SUBQUERY, 子查询中的第一个 SELECT<br>DEPENDENT SUBQUERY: 子查询中的第一个 SELECT, 取决于外面的查询. 即子查询依赖于外层查询的结果.</li>
+<li>table：执行计划对应的表</li>
+<li>type：类型（除了以下的还有其他的，可以遇到了再去查）<br>ALL(全表扫描) &lt; index &lt; range ~ index_merge &lt; ref(使用了索引) &lt; eq_ref &lt; const(结果只有一条) &lt; system(表只有一条)</li>
+<li>possible_key：可能用到的索引</li>
+<li>key：实际索引</li>
+<li>key_len：索引长度（短了好），决定了树结构的大小。</li>
+</ul>
+<h2 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h2><p>有<code>慢查询日志</code>记录查询时间<code>超过设定值</code>的sql。默认关闭。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show variables like &#39;%slow_query%&#39;;</span><br><span class="line">+---------------------+----------------------------------------------------+</span><br><span class="line">| Variable_name       | Value                                              |</span><br><span class="line">+---------------------+----------------------------------------------------+</span><br><span class="line">| slow_query_log      | OFF                                                |</span><br><span class="line">| slow_query_log_file | &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data&#x2F;sarisedeMacBook-Pro-slow.log |</span><br><span class="line">+---------------------+----------------------------------------------------+</span><br></pre></td></tr></table></figure>
+<p>可以用命令行，或者配置文件。<br><code>sarisedeMacBook-Pro-slow.log</code>是查询日志如果没有的话需要自己创建<code>slow.log</code>，然后配置相应的文件路径<code>slow_query_log_file</code>。<br>放在用户名位mysql的目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#放mysql日志文件的目录</span><br><span class="line">cd &#x2F;var&#x2F;log&#x2F;</span><br><span class="line">#更改用户组,不然慢查询记录写不进去.</span><br><span class="line">chown -R mysql:mysql  mysql</span><br><span class="line">          用户:组</span><br><span class="line">          </span><br><span class="line">#这里的mysql文件夹和slow.log要自己创建</span><br><span class="line">slow_query_log_file &#x3D; &#x2F;var&#x2F;log&#x2F;mysql&#x2F;slow.log</span><br></pre></td></tr></table></figure>
+<p>命令行是暂时的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set global slow_query_log &#x3D; on;</span><br><span class="line">#设置时间</span><br><span class="line">set global long_query_time &#x3D; 1;</span><br></pre></td></tr></table></figure>
+<p>配置文件改相应的这两行就行。</p>
+<h2 id="showprofile"><a href="#showprofile" class="headerlink" title="showprofile"></a>showprofile</h2><p>MySql自带的query诊断分析工具。可定义出一条sql语句各种资源的消耗情况(cpu、io等)。默认是关闭的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 查看是否开启了</span><br><span class="line">select @@profiling;</span><br><span class="line"># 开启</span><br><span class="line">set profiling &#x3D; 1;</span><br></pre></td></tr></table></figure>
+<p><code>show profiles</code>：列表形式显示最近的15条。条数由<code>profiling_history_size</code>控制，默认15条。包含了<code>Query_id</code>、<code>Duration</code>、<code>Query</code><br><code>show profile all for query n</code>:通过ID来得到相应语句的详细信息。//这个超级长<br>n：id码 （可选）<br>all：所有的信息。可替换成具体的某列信息。<code>BLOCK  IO</code> <code>CPU</code> <code>MEMORY``SOURCE``SWAPS</code>（可选，默认只有时间）<br><code>show profile</code>：显示最近的一条的详细信息。显示<code>status</code>以及对应的<code>duration</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">show profiles;</span><br><span class="line">+----------+------------+------------------------+</span><br><span class="line">| Query_ID | Duration   | Query                  |</span><br><span class="line">+----------+------------+------------------------+</span><br><span class="line">|        1 | 0.00200900 | SELECT DATABASE()      |</span><br><span class="line">|        2 | 0.00812700 | show databases         |</span><br><span class="line">|        3 | 0.00054900 | show tables            |</span><br><span class="line">|        4 | 0.00672900 | select * from user     |</span><br><span class="line">|        5 | 0.00034200 | show tables            |</span><br><span class="line">|        6 | 0.00299000 | select * from products |</span><br><span class="line">+----------+------------+------------------------+</span><br><span class="line"></span><br><span class="line">show profile;</span><br><span class="line">+----------------------+----------+</span><br><span class="line">| Status               | Duration |</span><br><span class="line">+----------------------+----------+</span><br><span class="line">| starting             | 0.000467 |</span><br><span class="line">| checking permissions | 0.000010 |</span><br><span class="line">| Opening tables       | 0.000014 |</span><br><span class="line">| init                 | 0.000017 |</span><br><span class="line">| System lock          | 0.000027 |</span><br><span class="line">| optimizing           | 0.000004 |</span><br><span class="line">| statistics           | 0.000013 |</span><br><span class="line">| preparing            | 0.000009 |</span><br><span class="line">| executing            | 0.000004 |</span><br><span class="line">| Sending data         | 0.001818 |</span><br><span class="line">| end                  | 0.000006 |</span><br><span class="line">| query end            | 0.000006 |</span><br><span class="line">| closing tables       | 0.000007 |</span><br><span class="line">| freeing items        | 0.000014 |</span><br><span class="line">| cleaning up          | 0.000574 |</span><br><span class="line">+----------------------+----------+</span><br><span class="line"></span><br><span class="line">show profile all for query 4;</span><br><span class="line">+----------------------+----------+----------+------------+-------------------+---------------------+--------------+---------------+---------------+-------------------+-------------------+-------------------+-------+-----------------------+----------------------+-------------+</span><br><span class="line">| Status               | Duration | CPU_user | CPU_system | Context_voluntary | Context_involuntary | Block_ops_in | Block_ops_out | Messages_sent | Messages_received | Page_faults_major | Page_faults_minor | Swaps | Source_function       | Source_file          | Source_line |</span><br><span class="line">+----------------------+----------+----------+------------+-------------------+---------------------+--------------+---------------+---------------+-------------------+-------------------+-------------------+-------+-----------------------+----------------------+-------------+</span><br><span class="line">| starting             | 0.000970 | 0.000057 |   0.000307 |                 0 |                   1 |            0 |             0 |             0 |                 0 |                 8 |                 0 |     0 | NULL                  | NULL                 |        NULL |</span><br><span class="line">| checking permissions | 0.000010 | 0.000006 |   0.000005 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | check_access          | sql_authorization.cc |         802 |</span><br><span class="line">| Opening tables       | 0.000015 | 0.000014 |   0.000001 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | open_tables           | sql_base.cc          |        5714 |</span><br><span class="line">| init                 | 0.000069 | 0.000018 |   0.000050 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 2 |                 0 |     0 | handle_query          | sql_select.cc        |         121 |</span><br><span class="line">| System lock          | 0.000350 | 0.000012 |   0.000144 |                 0 |                   1 |            0 |             0 |             0 |                 0 |                 1 |                 0 |     0 | mysql_lock_tables     | lock.cc              |         323 |</span><br><span class="line">| optimizing           | 0.000007 | 0.000004 |   0.000002 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | optimize              | sql_optimizer.cc     |         151 |</span><br><span class="line">| statistics           | 0.000015 | 0.000013 |   0.000001 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | optimize              | sql_optimizer.cc     |         367 |</span><br><span class="line">| preparing            | 0.000011 | 0.000011 |   0.000002 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | optimize              | sql_optimizer.cc     |         475 |</span><br><span class="line">| executing            | 0.000004 | 0.000002 |   0.000001 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | exec                  | sql_executor.cc      |         119 |</span><br><span class="line">| Sending data         | 0.005227 | 0.000142 |   0.001554 |                 0 |                  15 |            0 |             0 |             0 |                 0 |                47 |                15 |     0 | exec                  | sql_executor.cc      |         195 |</span><br><span class="line">| end                  | 0.000005 | 0.000003 |   0.000002 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | handle_query          | sql_select.cc        |         199 |</span><br><span class="line">| query end            | 0.000005 | 0.000004 |   0.000001 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | mysql_execute_command | sql_parse.cc         |        4946 |</span><br><span class="line">| closing tables       | 0.000006 | 0.000006 |   0.000000 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 0 |     0 | mysql_execute_command | sql_parse.cc         |        4998 |</span><br><span class="line">| freeing items        | 0.000013 | 0.000006 |   0.000007 |                 0 |                   0 |            0 |             0 |             1 |                 0 |                 0 |                 0 |     0 | mysql_parse           | sql_parse.cc         |        5610 |</span><br><span class="line">| cleaning up          | 0.000022 | 0.000009 |   0.000013 |                 0 |                   0 |            0 |             0 |             0 |                 0 |                 0 |                 3 |     0 | dispatch_command      | sql_parse.cc         |        1924 |</span><br><span class="line">+----------------------+----------+----------+------------+-------------------+---------------------+--------------+---------------+---------------+-------------------+-------------------+-------------------+-------+-----------------------+----------------------+-------------+</span><br></pre></td></tr></table></figure>
+
+<h2 id="优化细节"><a href="#优化细节" class="headerlink" title="优化细节"></a>优化细节</h2><ol>
+<li>合理索引</li>
+<li>合理冗余字段（关于三范式和业务设计）</li>
+<li>关于SQL的细节：<br>select尽量别用<code>*</code>、<code>count(*)</code> （因为会全表扫描）<br>where尽量别用 1=1、in语句（建议exists语句）<br>注意组合索引最左前缀，查询力度大的放在最左边</li>
+<li>合理慢查询，explain，show profile 查看资源情况</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#索引"><span class="toc-number">2.</span> <span class="toc-text">索引</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#索引使用"><span class="toc-number">2.1.</span> <span class="toc-text">索引使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#explain"><span class="toc-number">3.</span> <span class="toc-text">explain</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#慢查询"><span class="toc-number">4.</span> <span class="toc-text">慢查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#showprofile"><span class="toc-number">5.</span> <span class="toc-text">showprofile</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化细节"><span class="toc-number">6.</span> <span class="toc-text">优化细节</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&text= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&is_video=false&description= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= mysql_04_索引_性能优化&body=Check out this article: http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&title= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&name= mysql_04_索引_性能优化&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/&t= mysql_04_索引_性能优化" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

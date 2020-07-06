@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Something before star主要记录一下比较容易混淆的知识，还有一些语法上的细节。后面学习swing的时候可能才要认真记录。记录一下我认为是重点的：传值 继承 子类执行构造函数会先调用父类的构造函数  多态 静态多态：同类方法，签名不同。签名：名称，参数类型，参数顺序。 动态多态：重写父类方法。父类对象调用方法也是子类的方法。  静态静态方法只能调用同一个类的静态字段，比如其他静态方">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" JAVA_课堂笔记">
+<meta property="og:url" content="http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="Something before star主要记录一下比较容易混淆的知识，还有一些语法上的细节。后面学习swing的时候可能才要认真记录。记录一下我认为是重点的：传值 继承 子类执行构造函数会先调用父类的构造函数  多态 静态多态：同类方法，签名不同。签名：名称，参数类型，参数顺序。 动态多态：重写父类方法。父类对象调用方法也是子类的方法。  静态静态方法只能调用同一个类的静态字段，比如其他静态方">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-19T00:31:39.000Z">
+<meta property="article:modified_time" content="2020-04-29T00:31:23.572Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> JAVA_课堂笔记</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/19/mysql-04-%E7%B4%A2%E5%BC%95-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/16/mysql-03-%E5%A4%9A%E8%A1%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&text= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&is_video=false&description= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= JAVA_课堂笔记&body=Check out this article: http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&name= JAVA_课堂笔记&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&t= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-star"><span class="toc-number">1.</span> <span class="toc-text">Something before star</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承"><span class="toc-number">2.</span> <span class="toc-text">继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多态"><span class="toc-number">3.</span> <span class="toc-text">多态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态"><span class="toc-number">4.</span> <span class="toc-text">静态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#final"><span class="toc-number">5.</span> <span class="toc-text">final</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接口"><span class="toc-number">6.</span> <span class="toc-text">接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强for"><span class="toc-number">7.</span> <span class="toc-text">增强for</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新switch"><span class="toc-number">8.</span> <span class="toc-text">新switch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#传值"><span class="toc-number">9.</span> <span class="toc-text">传值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#游长实参表"><span class="toc-number">10.</span> <span class="toc-text">游长实参表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this引用"><span class="toc-number">11.</span> <span class="toc-text">this引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System"><span class="toc-number">12.</span> <span class="toc-text">System</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Date"><span class="toc-number">13.</span> <span class="toc-text">Date</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Calendar"><span class="toc-number">14.</span> <span class="toc-text">Calendar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Random类-Math类-随机数"><span class="toc-number">15.</span> <span class="toc-text">Random类 Math类 随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合类型"><span class="toc-number">16.</span> <span class="toc-text">集合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组"><span class="toc-number">16.1.</span> <span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-number">17.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-number">18.</span> <span class="toc-text">&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#向量"><span class="toc-number">19.</span> <span class="toc-text">向量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希函数"><span class="toc-number">20.</span> <span class="toc-text">哈希函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型"><span class="toc-number">21.</span> <span class="toc-text">泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#泛型类"><span class="toc-number">21.1.</span> <span class="toc-text">泛型类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举"><span class="toc-number">22.</span> <span class="toc-text">枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合"><span class="toc-number">23.</span> <span class="toc-text">集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-number">24.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map"><span class="toc-number">25.</span> <span class="toc-text">Map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法"><span class="toc-number">26.</span> <span class="toc-text">算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">27.</span> <span class="toc-text">异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#受检异常"><span class="toc-number">27.1.</span> <span class="toc-text">受检异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非受检异常"><span class="toc-number">27.2.</span> <span class="toc-text">非受检异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exception"><span class="toc-number">27.3.</span> <span class="toc-text">Exception</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Error"><span class="toc-number">27.4.</span> <span class="toc-text">Error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常处理"><span class="toc-number">27.5.</span> <span class="toc-text">异常处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件-流"><span class="toc-number">28.</span> <span class="toc-text">文件 流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件处理"><span class="toc-number">28.1.</span> <span class="toc-text">文件处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#输入-输出流"><span class="toc-number">28.2.</span> <span class="toc-text">输入&#x2F;输出流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#print-数据流"><span class="toc-number">28.3.</span> <span class="toc-text">print 数据流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#序列化"><span class="toc-number">28.4.</span> <span class="toc-text">序列化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他的字节流类"><span class="toc-number">28.5.</span> <span class="toc-text">其他的字节流类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#带缓存的数据流"><span class="toc-number">28.6.</span> <span class="toc-text">带缓存的数据流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于字符流的文件操作"><span class="toc-number">28.7.</span> <span class="toc-text">基于字符流的文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#FileReader"><span class="toc-number">28.7.1.</span> <span class="toc-text">FileReader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BufferedReader"><span class="toc-number">28.7.2.</span> <span class="toc-text">BufferedReader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LineNumberReader"><span class="toc-number">28.7.3.</span> <span class="toc-text">LineNumberReader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BufferedWriter"><span class="toc-number">28.7.4.</span> <span class="toc-text">BufferedWriter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PrintWriter"><span class="toc-number">28.7.5.</span> <span class="toc-text">PrintWriter</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随机访问文件"><span class="toc-number">28.8.</span> <span class="toc-text">随机访问文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GGGUUUIIII"><span class="toc-number">29.</span> <span class="toc-text">GGGUUUIIII</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-number">30.</span> <span class="toc-text">多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立一个简单的服务器"><span class="toc-number">31.</span> <span class="toc-text">建立一个简单的服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立简单的客户端"><span class="toc-number">32.</span> <span class="toc-text">建立简单的客户端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无连接的客户-服务器编程"><span class="toc-number">33.</span> <span class="toc-text">无连接的客户&#x2F;服务器编程</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         JAVA_课堂笔记
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-19T00:31:39.000Z" itemprop="datePublished">2020-02-19</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Something-before-star"><a href="#Something-before-star" class="headerlink" title="Something before star"></a>Something before star</h2><p>主要记录一下比较容易混淆的知识，还有一些语法上的细节。后面学习swing的时候可能才要认真记录。<br>记录一下我认为是重点的：<a href="#传值">传值</a></p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><ul>
+<li><code>子类</code>执行构造函数会先调用<code>父类</code>的构造函数</li>
+</ul>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><ul>
+<li>静态多态：同类方法，签名不同。签名：名称，参数类型，参数顺序。</li>
+<li>动态多态：重写父类方法。父类对象调用方法也是子类的方法。</li>
+</ul>
+<h2 id="静态"><a href="#静态" class="headerlink" title="静态"></a>静态</h2><p>静态方法只能调用同一个类的静态字段，比如其他静态方法，成员。</p>
+<h2 id="final"><a href="#final" class="headerlink" title="final"></a>final</h2><p>常量。</p>
+<h2 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h2><p>成员方法 默认abstract，成员域。<br>用来规定一个行为。</p>
+<h2 id="增强for"><a href="#增强for" class="headerlink" title="增强for"></a>增强for</h2><p>优点：不用判断边界，好写。<br>缺点：</p>
+<ul>
+<li>只能顺次遍历所有元素。不能访问下表。</li>
+<li>对于集合，就不方便删除集合内容<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//element类型要和集合的类型一致</span></span><br><span class="line"><span class="keyword">for</span>(type element:集合变量名)&#123;</span><br><span class="line">	statment;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//实例：</span></span><br><span class="line"><span class="keyword">int</span> array[]=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> n:array)&#123;</span><br><span class="line">	System.out.println(n);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="新switch"><a href="#新switch" class="headerlink" title="新switch"></a>新switch</h2><p>java7之前只能用基本类型和其封装类型。<br>现在可以用string类型</p>
+<h2 id="传值"><a href="#传值" class="headerlink" title="传值"></a>传值</h2><p>java中所有的实参都是按值传递。<br>方法调用：</p>
+<ul>
+<li>基本类型的值的副本（改动不影响）</li>
+<li>对象引用的副本（指向同一个对象）</li>
+</ul>
+<h2 id="游长实参表"><a href="#游长实参表" class="headerlink" title="游长实参表"></a>游长实参表</h2><p>一个参数表只能出现<strong>一次</strong>省略号，并且只能放在参数表的<strong>末尾</strong>。<br>传入的实参表是一个<strong>数组</strong>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#求double平均值</span><br><span class="line">public static double average(double... numbers)&#123;</span><br><span class="line">	double all&#x3D;0;</span><br><span class="line">	for(double d:numbers)&#123;</span><br><span class="line">		all+&#x3D;d;</span><br><span class="line">	&#125;</span><br><span class="line">	return all&#x2F;numbers.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="this引用"><a href="#this引用" class="headerlink" title="this引用"></a>this引用</h2><p>没个对象都可以用this引用自己。<br>this调用同一个类的<strong>构造函数</strong>，只能放在第一行。</p>
+<h2 id="System"><a href="#System" class="headerlink" title="System"></a>System</h2><p>输入输出，当前时间，退出虚拟机。</p>
+<h2 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h2><p>获取日期</p>
+<h2 id="Calendar"><a href="#Calendar" class="headerlink" title="Calendar"></a>Calendar</h2><p>是抽象类</p>
+<h2 id="Random类-Math类-随机数"><a href="#Random类-Math类-随机数" class="headerlink" title="Random类 Math类 随机数"></a>Random类 Math类 随机数</h2><p>Random：多种数据类型<br>Math：random() 0.0-1.0</p>
+<h2 id="集合类型"><a href="#集合类型" class="headerlink" title="集合类型"></a>集合类型</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p><strong>数组是对象</strong>，是应用类型。<br>声明:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">int c[]&#x3D;new int[12];</span><br><span class="line">int d[];</span><br><span class="line">d&#x3D;new int[12];</span><br><span class="line">int n[]&#x3D;&#123;10,20,30,40,50&#125;</span><br><span class="line"></span><br><span class="line">double[][] c&#x3D;&#123;</span><br><span class="line">	&#123;1,2,3&#125;,</span><br><span class="line">	&#123;3,4,5&#125;,</span><br><span class="line">	&#123;5,6,7&#125;</span><br><span class="line">&#125;</span><br><span class="line">int a[][];</span><br><span class="line">a &#x3D; new int[3][];</span><br><span class="line">a[0] &#x3D; new int[3];</span><br><span class="line">a[0] &#x3D; new int[2];&#x2F;&#x2F;每行的长度可以不同</span><br></pre></td></tr></table></figure>
+<p><del>下表必须是整数,得注意下表的范围,吐了我们老师连这个都讲</del>。<br>有一些java数组的方法.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 数组长度</span><br><span class="line">c.length</span><br></pre></td></tr></table></figure>
+
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>char数组不是字符串！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int length();</span><br><span class="line">charAt(int);</span><br><span class="line">getCgars(int srcBegin,int srcEnd,char[] dst,int dstBegin);</span><br><span class="line">compareto</span><br><span class="line">indexOf();</span><br><span class="line">concat();</span><br><span class="line">valueOf(char[] data);&#x2F;&#x2F;字符型数组转换成字符串</span><br><span class="line">valueOf(char[] data,int offset,int count);</span><br></pre></td></tr></table></figure>
+<h2 id><a href="#" class="headerlink" title="=="></a>==</h2><p>基本类型：是否相等<br>引用类型：是否引用是否指向相同的对象</p>
+<h2 id="向量"><a href="#向量" class="headerlink" title="向量"></a>向量</h2><p>java.util.Vector</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Vector&lt;Object&gt; vo &#x3D; new Vector&lt;Object&gt;();</span><br><span class="line">add(element)</span><br><span class="line">set(index,element);</span><br><span class="line">clear();</span><br><span class="line">removeAllElements();</span><br><span class="line">remove(index);</span><br><span class="line">removeElementAt(index);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;迭代器</span><br><span class="line">public Iterator&lt;E&gt; iterator();</span><br><span class="line">boolean hasNext();</span><br><span class="line">E next();</span><br></pre></td></tr></table></figure>
+
+<h2 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h2><p>没啥好说的<br>Hashtable<br>HashMap<br>WeakHashMap</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">put(key,value)</span><br></pre></td></tr></table></figure>
+
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>参数化类型，允许创建一些类，接口，方法操作的数据类型被指定为一个参数。<br>这种类型参数可以在类、接口、方法的创建中，分别为泛型类、泛型接口、泛型方法。<br>优点：类型安全，代码重用率<br>所有泛型类都会用Object(上界)替换.<br>应用1: 泛型方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输出数组元素的内容</span></span><br><span class="line"><span class="keyword">public</span> &lt;E&gt; <span class="function"><span class="keyword">void</span> <span class="title">printArrat</span><span class="params">(E[] inputArray)</span></span>&#123;<span class="comment">//只能表示引用类型，不能表示基本类型</span></span><br><span class="line">	<span class="keyword">for</span>(E element:inputArray)&#123;</span><br><span class="line">		System.out.println(<span class="string">"%s"</span>,element);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">printArray(integerArray);</span><br></pre></td></tr></table></figure>
+<p>应用2:比较大小</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回最大值 </span></span><br><span class="line"><span class="comment">//无论是拓展自类还是实现其他接口 都用extends</span></span><br><span class="line"><span class="comment">//这了Comparable被称为上界</span></span><br><span class="line"><span class="keyword">public</span> &lt;T extends Comparable&lt;t&gt; &gt; <span class="function">T <span class="title">maximun</span><span class="params">(T x,T y, T z)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>应用3:泛型类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stack</span>&lt;<span class="title">E</span>&gt;</span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建的时候需要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elements &#x3D; (E[])new Objects[size]</span><br></pre></td></tr></table></figure>
+<p>通配符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public &lt;E extends Number&gt; double sum(ArrayList&lt;E&gt; list)&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public  double sum(ArrayList&lt;? Extends Number&gt; list)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="泛型类"><a href="#泛型类" class="headerlink" title="泛型类"></a>泛型类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[类修饰词] class name&lt;类型参数&gt; [extends] [inmolements]&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;E&gt;</span><br><span class="line">&lt;E extends a&gt;</span><br><span class="line">&lt;E extends a1&amp;a2&amp;a3&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h2><p>1、不能有public的构造函数。<br>2、所有的枚举值都是public，static，final<br>3、默认实现了Comparable<br>4、重载了toString</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>  <span class="keyword">enum</span> Book&#123;</span><br><span class="line">JHTP6(<span class="string">"jaja"</span>,<span class="string">"2005"</span>),</span><br><span class="line">CHYP(<span class="string">"III"</span>,<span class="string">"2001"</span>),</span><br><span class="line">DHYP(<span class="string">"I2II"</span>,<span class="string">"2001"</span>)</span><br><span class="line">EHYP(<span class="string">"I3II"</span>,<span class="string">"2001"</span>)</span><br><span class="line">FHYP(<span class="string">"I4II"</span>,<span class="string">"2001"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> String title;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> String year;</span><br><span class="line">Book(String title,String year)&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">String <span class="title">getTitle</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for(Book book:Book.values())&#123;</span><br><span class="line">	System.out.println(book.getTitle());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(Book book:EnumSet.range(Book.CHYP,Book.EHYP))&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><p>一种数据结构，保存其他对象的引用</p>
+<p>Array:<br>equals();<br>Array.fill(arr,7);//fill with 7<br>sort();//升序<br>binarySearch();<br>Array.asList(Array); //转化成列表<br><code>List&lt;String&gt; list = Array.asList( colors );</code></p>
+<p>Collection:<br>iterator();//返回迭代器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Iterator it&#x3D;collection.iterator();</span><br><span class="line">while(it.haNext())&#123;</span><br><span class="line">	Object obj&#x3D;it.next();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>List 的迭代器可以前后向移动</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>Queue：拓展自Collection</p>
+<p>PriorityQueue：可传入Comparator来自定义比较函数<br>offer:按照优先级插入<br>poll:删除最高优先级<br>peek:获得最高优先级<br>clear:全部删除<br>size:元素数量</p>
+<p>Set:拓展自Collection。无重复元素。（也是个接口）<br>TreeSet：内部用TreeMap实现，是一个有序集合，里面的元素需要实现Comparable接口。(默认为自然序)<br>headSet：标识位前，不包括<br>tailSet：标识位后，包括</p>
+<p>HashSet：内部用HashMap实现<br>LinkedHashSet</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private getSet(Collection&lt;String&gt; values)&#123;</span><br><span class="line">	Set&lt;String&gt; set &#x3D; new HashSet&lt;String&gt;(values);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p>这个不是Collection接口的继承。<br>HashTable:同步的<br>put(key,value); 如果有同键，则更新。<br>get(key);<br>ProPerties:HashTable子类 ,只能操作字符串(键值都为字符串)。具有持久性，可以通过流写入文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private void save(ProPerties proPerties)&#123;</span><br><span class="line">	FileOutputString out &#x3D; new FileOutputString(&quot;props.dat&quot;);</span><br><span class="line">	proPerties.store(out,&quot;Sample properties&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>HashMap:继承了AbstractMap<br>TreeMap:有排序</p>
+<h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><p>sort：可以接受比较器，也可以默认<br>binarySearch:<br>Shuffle:<br>reverse:<br>fill:<br>copy:<br>max:<br>min:</p>
+<h2 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h2><p>文件操作异常<br>数组下标越界<br>除0</p>
+<p>产生异常 -&gt; 产生异常对象</p>
+<h3 id="受检异常"><a href="#受检异常" class="headerlink" title="受检异常"></a>受检异常</h3><p>可以在编译时就被发现</p>
+<h3 id="非受检异常"><a href="#非受检异常" class="headerlink" title="非受检异常"></a>非受检异常</h3><p>不能编译时就被发现<br>包括：运行时异常、错误</p>
+<h3 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h3><ol>
+<li>运行时异常，继承与RuntimeException，不要求处理。</li>
+<li>受检异常(除了运行时异常都是)。要求必须处理。</li>
+</ol>
+<h3 id="Error"><a href="#Error" class="headerlink" title="Error"></a>Error</h3><p>虚拟机错误、动态链接失败<br>不捕获，也不抛出</p>
+<h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><ol>
+<li>捕获异常<br><code>try</code> – <code>catch</code> – <code>finally</code><br>getMessage(); //Throwable提供<br>prinitStackTrace();<br>处理完异常不返回抛出点，而是在最后一个catch语句之后恢复。<br>按顺序匹配catch。<br>jdk7后允许 <code>catch(type1|type2|type3 e)</code> 同时捕获几个异常<br>带资源的try语句。 try - with - resources。可以自动关闭资源<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">try(BufferedReader br &#x3D; new BufferedReader(new FileReader(path)))&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>声明抛出异常</li>
+</ol>
+<h2 id="文件-流"><a href="#文件-流" class="headerlink" title="文件 流"></a>文件 流</h2><p><code>流</code>：信息的逻辑实体。指从数据源读取，或者写入目标对象的有序数据。<br><code>流分类</code>：输入、输出 ; 字节流(基础单元为8bit的字节)、字符流(16bit) ;节点流(面向特定的io设备，也为低级流)、处理流(对已存在的流进行包装)<br>Java将每个文件都视为流的存储。文件本身没有”记录”的概念。<br><code>基于字节的文件</code>：二进制文件，基于值编码<br><code>基于字符</code>：文本文件，基于ascII码，或者unicode。<br>差别在于编码形式。物理层是一样的</p>
+<h3 id="文件处理"><a href="#文件处理" class="headerlink" title="文件处理"></a>文件处理</h3><p>Java支持文件管理以及目录管理,通过File类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//name ：绝对路径/相对路径</span></span><br><span class="line"><span class="comment">//pathToName :name文件的路径</span></span><br><span class="line"><span class="comment">//directory :提供路径</span></span><br><span class="line"><span class="comment">//uri表示一个uri地址</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">File</span><span class="params">(String name)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">File</span><span class="params">(String pathToName,String name)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">File</span><span class="params">(File directory,String name)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">File</span><span class="params">(URI uri)</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">getName();文件名</span><br><span class="line">getParent();文件目录名</span><br><span class="line">getPath()；文件目录</span><br><span class="line">isFile();</span><br><span class="line">length();</span><br><span class="line">exists();路径是否存在</span><br><span class="line">canWrite();</span><br><span class="line">canRead();</span><br><span class="line">mkdir();</span><br><span class="line">mkdirs();</span><br><span class="line">reNameTo();</span><br></pre></td></tr></table></figure>
+<p>分隔符: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;(unix) , \ (windows)</span><br></pre></td></tr></table></figure>
+<h3 id="输入-输出流"><a href="#输入-输出流" class="headerlink" title="输入/输出流"></a>输入/输出流</h3><p>基本输入输出:InputStream，OutputStream<br>字节流类，抽象类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">InputStream类声明了从原始字节数据 流读入数据的基本方法:</span><br><span class="line"> public abstract int read( ) throws IOException  从流中读入数据 </span><br><span class="line"> public long skip(long n) throws IOException  跳过流中若干字节数</span><br><span class="line"> public int available( ) throws IOException  返回流中可用字节数</span><br><span class="line"> public void mark(int readlimit)  在流中标记一个位置</span><br><span class="line"> public void reset( ) throws IOException  返回标记过的位置</span><br><span class="line"> public boolean markSupported( )  是否支持标记和复位操作</span><br><span class="line"> public void close( ) throws IOException  关闭流</span><br><span class="line"></span><br><span class="line">成员方法read( )读入单个无符号字节 (unsigned byte)的数据，并返回一个 整数类型(int)的值(与读入的无符号字节 数据相对应)</span><br><span class="line"></span><br><span class="line">下面的两个方法可以一次读入多个字节 到数组中</span><br><span class="line">public int read(byte[ ] data) throws IOException</span><br><span class="line">public int read(byte[ ] data, int offset, int length) throws IOException</span><br><span class="line"></span><br><span class="line">方法 available( ) 给出可以读入的字节 数</span><br><span class="line"> 这样在读数据之前就知道可以读入的字节数 public int available( ) throws IOException</span><br><span class="line"></span><br><span class="line">OutputStream类的方法有:</span><br><span class="line"> write(int b):将一个整数输出到流中</span><br><span class="line"> write(byte b[]):将数组中的数据输出到流 中</span><br><span class="line"> write(byte b[], int off,int len):将数组b 中从off指定的位置开始len长度的数据输出 到流中</span><br><span class="line"> flush():将缓冲区中的数据强制送出</span><br><span class="line"> close():关闭流</span><br></pre></td></tr></table></figure>
+<p>FileInputStream<br>FileOutputStream<br>这两个类负责对本地文件进行数据读写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">打开文件，准备读数据</span><br><span class="line">FileInputStream in&#x3D;new</span><br><span class="line">FileInputStream(fp);</span><br><span class="line"></span><br><span class="line">打开文件，准备写数据:</span><br><span class="line">FileOutputStream out&#x3D;new FileOutputStream(fp);</span><br></pre></td></tr></table></figure>
+
+<h3 id="print-数据流"><a href="#print-数据流" class="headerlink" title="print 数据流"></a>print 数据流</h3><p>类 java.io.PrintStream 是类<br>FilterOutputStream的子类<br>类PrintStream 的实例对象不会抛出(throws)异常(IOException)，这个类“吃掉”(traps)所有的异常(IOExceptions)</p>
+<p>Formatter output=new Formatter(“client.txt”);<br> 实例化Formatter对象，用于向文件写数据；<br> 该对象具有与System.out.printf方法相同的格式化能力。<br> 该语句执行时，如果文件不存在，则会创建它；<br>如果文件已存在，则它内部的数据将被丢弃，<br>文件打开，可写入数据。<br>output.format(“%d%s%s%.2f\n”,record.getAccount(),record.getFirstName(),record.getLastName(),record.getBalance() );</p>
+<p>input = new Scanner( newFile( “clients.txt” ) );<br>record.setAccount( input.nextInt() );<br>record.setFirstName( input.next() );<br>record.setLastName( input.next() );<br>record.setBalance( input.nextDouble() );</p>
+<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p>对象序列化(Serialize)是指将一个Java对象写入IO流中<br> 对象反序列化(Deserialize)是指从IO流中恢复该Java对象<br> 序列化必须实现Serializable和Externalizable接口<br>场景：通过socket进行对象的复制和通讯等、 程序版本升级问题<br>Serializable接口是一个标记接口，这样的接口不包含方法<br>写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ObjectOutputStream output &#x3D; new ObjectOutputStream(new FileOutputStream( &quot;clients.ser&quot; ) );</span><br><span class="line">record &#x3D; new AccountRecordSerializable(accountNumber,firstName,lastName,balance);</span><br><span class="line">output.writeObject( record );</span><br><span class="line"> 调用ObjectOutputStream的writeObject()方法将</span><br><span class="line">record对象写入文件clients.ser 。</span><br></pre></td></tr></table></figure>
+<p>读</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ObjectInputStream input &#x3D; new ObjectInputStream(new FileInputStream( &quot;clients.ser&quot; ) );</span><br><span class="line"> 创建相应的序列化对象文件流。</span><br><span class="line">record &#x3D; ( AccountRecordSerializable )</span><br><span class="line">input.readObject();</span><br></pre></td></tr></table></figure>
+<h3 id="其他的字节流类"><a href="#其他的字节流类" class="headerlink" title="其他的字节流类"></a>其他的字节流类</h3><p>PipedInputStream类<br>PipedOutputStream类:<br>用于以管道的方式在应用程序线程间进行数据传输，一个线程的PipedInputStream对象从另一个线程的PipedOutputStream对象中读 取数据。</p>
+<p>FilterInputStream类和 FilterOutputStream类:<br>过滤输入输出流，主要能够对输入输出的数据 作类型或格式上的转换，实现对二进制字节的 编码转换，<br>而它又进一步派生出一些具体的子类，如: DataInputStream、DataOutputStream和 BufferedInputStream、 BufferedOutputStream等。</p>
+<h3 id="带缓存的数据流"><a href="#带缓存的数据流" class="headerlink" title="带缓存的数据流"></a>带缓存的数据流</h3><p>BufferedInputStream/BufferedOutputStream<br>构造函数：<br>BufferedInputStream(InputStream in ,int size);//size默认512字节<br>BufferedInputStream(InputStream in);</p>
+<h3 id="基于字符流的文件操作"><a href="#基于字符流的文件操作" class="headerlink" title="基于字符流的文件操作"></a>基于字符流的文件操作</h3><p>java中用unicode表示字符和字符串。<br>Reader 和 Writer的各子类<br>Reader类似InputStream<br>Writer类似OutputStream</p>
+<h4 id="FileReader"><a href="#FileReader" class="headerlink" title="FileReader"></a>FileReader</h4><p>FileReader(String filePath)<br>FileReader(File fileObj)</p>
+<h4 id="BufferedReader"><a href="#BufferedReader" class="headerlink" title="BufferedReader"></a>BufferedReader</h4><p>BufferedReader(Reader inputStream)</p>
+<h4 id="LineNumberReader"><a href="#LineNumberReader" class="headerlink" title="LineNumberReader"></a>LineNumberReader</h4><p>有缓冲和行号</p>
+<h4 id="BufferedWriter"><a href="#BufferedWriter" class="headerlink" title="BufferedWriter"></a>BufferedWriter</h4><p>flush();输出缓冲的内容</p>
+<h4 id="PrintWriter"><a href="#PrintWriter" class="headerlink" title="PrintWriter"></a>PrintWriter</h4><p>基本上都是Inputstream的字符版本</p>
+<h3 id="随机访问文件"><a href="#随机访问文件" class="headerlink" title="随机访问文件"></a>随机访问文件</h3><p>RandomAccessFile<br>同时有DataInputStream DataOutputStream<br>RandomAccessFile(String filePath,String 权限);<br>有seek() 方法</p>
+<h2 id="GGGUUUIIII"><a href="#GGGUUUIIII" class="headerlink" title="GGGUUUIIII"></a>GGGUUUIIII</h2><p>没啥东西，后面做的时候上网查就好了</p>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>1 实现runnable<br>2 new Thread(runnable)<br>3 .run</p>
+<p><strong>后台线程</strong>：不单独提供服务<br>用户线程<br>Thread 里的成员方法<br>public final boolean isDeamon()<br>public final void setDeamon(boolean on)</p>
+<p><strong>线程组</strong><br>一些现成的集合，形成的树状结构<br>构造<br>java.lang.ThreadGroup<br>public ThreadGroup(String name)<br>public ThreadGroup(ThreadGroup parent, String name)</p>
+<p>public Thread(ThreadGroup group,String name) //线程构造的时候加入到线程组<br>Thread(ThreadGroup group,Runnable target)</p>
+<p><strong>线程池</strong><br>集中管理线程资源</p>
+<p>java.util.concurrent.Executors  – Executor的工厂类<br>public static ExecutorService newFixedThreadPool(int numOfThread)//创造固定数量线程池<br>当加入池的线程，超过最大限度，则放在等待队列</p>
+<p>可变大小的线程池<br>public static ExecutorService newCachedThreadPool();//如果没有可用的，则创建新的。线程超过60秒没有使用，则会被清除</p>
+<p>延迟连接池<br>public static ExecutorService newScheduledThreadPool(int num);//可以安排任务延迟执行</p>
+<p>自定义线程池<br>ThreadPoolExcutor<br>public ThreadPoolExcutor(<br>    int corePoolSize,//保留池<br>    int maximumPoolSize,//最大上限<br>    long keepAliveTime,//等待时间<br>    TimeUnit unit,<br>    BlockingQueue<Runnable> workQueue//缓存队列<br>);</Runnable></p>
+<h2 id="建立一个简单的服务器"><a href="#建立一个简单的服务器" class="headerlink" title="建立一个简单的服务器"></a>建立一个简单的服务器</h2><p>1 创建一个ServerSocket对象<br>public ServerSocket(int port, int queueLength) throws IOException,BindException</p>
+<p>2 通过调用ServerSocket的accept方法等待客户端连接<br>Socket connection=server.accept();</p>
+<p>3 获得OutputStream和InputStream对象<br>Socket.getOutputStream()<br>OutputStream和InputStream与其他的输入输出流类套接<br>ObjectInputStream input=new ObjectInputStream  (connection.getInputStream());</p>
+<p>4 服务器和客户端通过OutputStream和InputStream对象通信</p>
+<p>5 close()</p>
+<h2 id="建立简单的客户端"><a href="#建立简单的客户端" class="headerlink" title="建立简单的客户端"></a>建立简单的客户端</h2><p>1 创建一个连接到服务器的Socket<br>Socket connection=new Socket( serverAddress, port);</p>
+<p>2 获得OutputStream和InputStream对象</p>
+<p>3 4 同上</p>
+<h2 id="无连接的客户-服务器编程"><a href="#无连接的客户-服务器编程" class="headerlink" title="无连接的客户/服务器编程"></a>无连接的客户/服务器编程</h2><p>UDP协议<br>DatagramPacket：表示要发送/接收的信息组成的数据包<br>DatagramPacket(byte[] buffer, int length)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">byte[] buffer&#x3D;new byte[100];</span><br><span class="line">DatagramPacket Data_R&#x3D; new DatagramPacket(buffer, buffer.length);</span><br></pre></td></tr></table></figure>
+<p>DatagramPacket(byte[] buffer, int length, InetAddress add, int port)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">byte[] buffer &#x3D; new byte[1000];</span><br><span class="line">InetAddress ia &#x3D; InetAddress.getByname(“www.disney.com”);</span><br><span class="line">DategramPacket Data_S &#x3D; new DatagramPacket(buffer, buffer.length,  ia,  6000);</span><br></pre></td></tr></table></figure>
+
+
+<p>DatagramSoket：表示客户和服务器之间的套接字，用于发送和接收数据包<br>Client端：DatagramSocket()<br>Server端： DatagramSocket(int port)</p>
+<p>发送和接受<br>DatagramSocket .send(DatagramPacket dgp)<br>DatagramSocket .receive(DatagramPacket dgp)</p>
+<p>Server发送/接收报文</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">DatagramSocket socket;</span><br><span class="line">DatagramPacket packet;</span><br><span class="line">InetAddress address;(用来存放目的地址)</span><br><span class="line">int port; (用来存放目的端口号)</span><br><span class="line"></span><br><span class="line">try &#123;</span><br><span class="line"> socket&#x3D;new DatagramSocket(1111);</span><br><span class="line">&#125;catch(java.net.SocketException e) &#123;&#125;</span><br><span class="line"></span><br><span class="line">byte[] buf&#x3D;new byte[256]; </span><br><span class="line">packet&#x3D;new DatagramPacket(buf, 256);&#x2F;&#x2F;用于接收信息</span><br><span class="line">socket.receive(packet);&#x2F;&#x2F;服务器阻塞</span><br><span class="line"></span><br><span class="line">InetAddress address&#x3D;packet.getAddress();</span><br><span class="line">int port&#x3D;packet.getPort();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;将待发送的数据送入缓冲区</span><br><span class="line">--&gt;buf</span><br><span class="line">packet&#x3D;new DatagramPacket(buf,buf.length, address,port);</span><br><span class="line">socket.send(packet); </span><br><span class="line">socket.close();</span><br></pre></td></tr></table></figure>
+
+<p>客户端接收包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">int port;</span><br><span class="line">InetAddress address;</span><br><span class="line">DatagramSocket socket;</span><br><span class="line">DatagramPacket packet;</span><br><span class="line">byte[] sendBuf&#x3D;new byte[256];</span><br><span class="line"></span><br><span class="line">socket&#x3D;new DatagramSocket();</span><br><span class="line"></span><br><span class="line">address&#x3D;InetAddress.getByName(args[0]);</span><br><span class="line">port&#x3D;parseInt(args[1]);</span><br><span class="line">packet&#x3D;new DatagramPacket(sendBuf,256,address,port);</span><br><span class="line">socket.send(packet);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;客户机等待应答</span><br><span class="line">&#x2F;&#x2F;没有到就一直等待,要设置时间限度</span><br><span class="line">packet&#x3D;new DatagramPacket(sendBuf,256);</span><br><span class="line">socket.receive(packet);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;接收到数据</span><br><span class="line">String received&#x3D;new String(packet.getData(),0);</span><br><span class="line">System.out.println(received);</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-star"><span class="toc-number">1.</span> <span class="toc-text">Something before star</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承"><span class="toc-number">2.</span> <span class="toc-text">继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多态"><span class="toc-number">3.</span> <span class="toc-text">多态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态"><span class="toc-number">4.</span> <span class="toc-text">静态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#final"><span class="toc-number">5.</span> <span class="toc-text">final</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接口"><span class="toc-number">6.</span> <span class="toc-text">接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#增强for"><span class="toc-number">7.</span> <span class="toc-text">增强for</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新switch"><span class="toc-number">8.</span> <span class="toc-text">新switch</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#传值"><span class="toc-number">9.</span> <span class="toc-text">传值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#游长实参表"><span class="toc-number">10.</span> <span class="toc-text">游长实参表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this引用"><span class="toc-number">11.</span> <span class="toc-text">this引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#System"><span class="toc-number">12.</span> <span class="toc-text">System</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Date"><span class="toc-number">13.</span> <span class="toc-text">Date</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Calendar"><span class="toc-number">14.</span> <span class="toc-text">Calendar</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Random类-Math类-随机数"><span class="toc-number">15.</span> <span class="toc-text">Random类 Math类 随机数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合类型"><span class="toc-number">16.</span> <span class="toc-text">集合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数组"><span class="toc-number">16.1.</span> <span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-number">17.</span> <span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-number">18.</span> <span class="toc-text">&#x3D;&#x3D;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#向量"><span class="toc-number">19.</span> <span class="toc-text">向量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#哈希函数"><span class="toc-number">20.</span> <span class="toc-text">哈希函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#泛型"><span class="toc-number">21.</span> <span class="toc-text">泛型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#泛型类"><span class="toc-number">21.1.</span> <span class="toc-text">泛型类</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#枚举"><span class="toc-number">22.</span> <span class="toc-text">枚举</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合"><span class="toc-number">23.</span> <span class="toc-text">集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-number">24.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map"><span class="toc-number">25.</span> <span class="toc-text">Map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法"><span class="toc-number">26.</span> <span class="toc-text">算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#异常"><span class="toc-number">27.</span> <span class="toc-text">异常</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#受检异常"><span class="toc-number">27.1.</span> <span class="toc-text">受检异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非受检异常"><span class="toc-number">27.2.</span> <span class="toc-text">非受检异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Exception"><span class="toc-number">27.3.</span> <span class="toc-text">Exception</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Error"><span class="toc-number">27.4.</span> <span class="toc-text">Error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异常处理"><span class="toc-number">27.5.</span> <span class="toc-text">异常处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件-流"><span class="toc-number">28.</span> <span class="toc-text">文件 流</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件处理"><span class="toc-number">28.1.</span> <span class="toc-text">文件处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#输入-输出流"><span class="toc-number">28.2.</span> <span class="toc-text">输入&#x2F;输出流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#print-数据流"><span class="toc-number">28.3.</span> <span class="toc-text">print 数据流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#序列化"><span class="toc-number">28.4.</span> <span class="toc-text">序列化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他的字节流类"><span class="toc-number">28.5.</span> <span class="toc-text">其他的字节流类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#带缓存的数据流"><span class="toc-number">28.6.</span> <span class="toc-text">带缓存的数据流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于字符流的文件操作"><span class="toc-number">28.7.</span> <span class="toc-text">基于字符流的文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#FileReader"><span class="toc-number">28.7.1.</span> <span class="toc-text">FileReader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BufferedReader"><span class="toc-number">28.7.2.</span> <span class="toc-text">BufferedReader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LineNumberReader"><span class="toc-number">28.7.3.</span> <span class="toc-text">LineNumberReader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BufferedWriter"><span class="toc-number">28.7.4.</span> <span class="toc-text">BufferedWriter</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PrintWriter"><span class="toc-number">28.7.5.</span> <span class="toc-text">PrintWriter</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#随机访问文件"><span class="toc-number">28.8.</span> <span class="toc-text">随机访问文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GGGUUUIIII"><span class="toc-number">29.</span> <span class="toc-text">GGGUUUIIII</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多线程"><span class="toc-number">30.</span> <span class="toc-text">多线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立一个简单的服务器"><span class="toc-number">31.</span> <span class="toc-text">建立一个简单的服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#建立简单的客户端"><span class="toc-number">32.</span> <span class="toc-text">建立简单的客户端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#无连接的客户-服务器编程"><span class="toc-number">33.</span> <span class="toc-text">无连接的客户&#x2F;服务器编程</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&text= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&is_video=false&description= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= JAVA_课堂笔记&body=Check out this article: http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&title= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&name= JAVA_课堂笔记&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/19/JAVA-%E8%AF%BE%E5%A0%82%E7%AC%94%E8%AE%B0/&t= JAVA_课堂笔记" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

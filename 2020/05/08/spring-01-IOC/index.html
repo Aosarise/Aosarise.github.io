@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Someting before start之前决定要写spring的内容，可是因为动森实在太好玩了微信小程序花了太多时间了。主要是总结用法，然后有时间的话会整理一下源码分析。博客使用的源码我后面有时间的话传到github上。我使用的ide是idea。需要用到maven。创建流程: new Project -&gt; Maven(idea有自带,当然也可以用自己创建的) -&gt;groupID 和">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" spring_01_IOC">
+<meta property="og:url" content="http://aosarise.github.io/2020/05/08/spring-01-IOC/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="Someting before start之前决定要写spring的内容，可是因为动森实在太好玩了微信小程序花了太多时间了。主要是总结用法，然后有时间的话会整理一下源码分析。博客使用的源码我后面有时间的话传到github上。我使用的ide是idea。需要用到maven。创建流程: new Project -&gt; Maven(idea有自带,当然也可以用自己创建的) -&gt;groupID 和">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-08T14:16:54.000Z">
+<meta property="article:modified_time" content="2020-05-09T15:57:47.974Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> spring_01_IOC</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/07/01/springboot-01-%E5%88%9B%E5%BB%BA/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/26/mysql-06-%E4%B8%BB%E4%BB%8E-MyCat/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/05/08/spring-01-IOC/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&text= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&is_video=false&description= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= spring_01_IOC&body=Check out this article: http://aosarise.github.io/2020/05/08/spring-01-IOC/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&name= spring_01_IOC&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/05/08/spring-01-IOC/&t= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Someting-before-start"><span class="toc-number">1.</span> <span class="toc-text">Someting before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法查询目录"><span class="toc-number">2.</span> <span class="toc-text">用法查询目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring介绍"><span class="toc-number">3.</span> <span class="toc-text">Spring介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOC容器"><span class="toc-number">4.</span> <span class="toc-text">IOC容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#是什么"><span class="toc-number">4.1.</span> <span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建"><span class="toc-number">4.2.</span> <span class="toc-text">创建</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于XML"><span class="toc-number">5.</span> <span class="toc-text">基于XML</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#导入maven依赖"><span class="toc-number">5.1.</span> <span class="toc-text">导入maven依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建xml文件"><span class="toc-number">5.2.</span> <span class="toc-text">创建xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户接口与实现类"><span class="toc-number">5.3.</span> <span class="toc-text">用户接口与实现类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XML文件配置"><span class="toc-number">5.4.</span> <span class="toc-text">XML文件配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试"><span class="toc-number">5.5.</span> <span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DI依赖注入-XML"><span class="toc-number">6.</span> <span class="toc-text">DI依赖注入_XML</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单类型"><span class="toc-number">6.1.</span> <span class="toc-text">简单类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POJO和List"><span class="toc-number">6.2.</span> <span class="toc-text">POJO和List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set和Map"><span class="toc-number">6.3.</span> <span class="toc-text">Set和Map</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用注解注入"><span class="toc-number">7.</span> <span class="toc-text">使用注解注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#spring-xml中需要引入context标签"><span class="toc-number">7.1.</span> <span class="toc-text">spring.xml中需要引入context标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开启注解"><span class="toc-number">7.2.</span> <span class="toc-text">开启注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用注解"><span class="toc-number">7.3.</span> <span class="toc-text">使用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Component"><span class="toc-number">7.3.1.</span> <span class="toc-text">@Component</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Value"><span class="toc-number">7.3.2.</span> <span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Resource-Autowired-Qualifier"><span class="toc-number">7.3.3.</span> <span class="toc-text">@Resource @Autowired @Qualifier</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#spring配置文件展示"><span class="toc-number">7.3.4.</span> <span class="toc-text">spring配置文件展示</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#纯注解"><span class="toc-number">8.</span> <span class="toc-text">纯注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven依赖整合"><span class="toc-number">9.</span> <span class="toc-text">Maven依赖整合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">10.</span> <span class="toc-text">源码分析</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         spring_01_IOC
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-05-08T14:16:54.000Z" itemprop="datePublished">2020-05-08</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a> › <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/Spring/">Spring</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Someting-before-start"><a href="#Someting-before-start" class="headerlink" title="Someting before start"></a>Someting before start</h2><p>之前决定要写spring的内容，可是因为<del>动森实在太好玩了</del>微信小程序花了太多时间了。<br>主要是总结用法，然后有时间的话会整理一下源码分析。<br>博客使用的源码我后面有时间的话传到github上。<br>我使用的ide是idea。需要用到maven。<br>创建流程: new Project -&gt; Maven(idea有自带,当然也可以用自己创建的) -&gt;groupID 和 artifactId 可以随便写。我自己是 groupID:<code>com.sarise.spring</code> artifactId:<code>S_Blog_IOC_XML</code><br>为了方便区分三部分的知识点，会开三个Project。</p>
+<h2 id="用法查询目录"><a href="#用法查询目录" class="headerlink" title="用法查询目录"></a>用法查询目录</h2><blockquote>
+<p><a href="#spring配置文件展示">Spring头文件</a><br><a href="#Maven依赖整合">Maven依赖</a><br><a href="#简单类型">简单类型依赖注入</a><br><a href="#POJO和List">POJO类型和List</a><br><a href="#Set和Map">Set和Map</a><br><a href="#使用注解注入">Context标签引入</a><br><a href="#使用注解">几个常见注解</a></p>
+</blockquote>
+<h2 id="Spring介绍"><a href="#Spring介绍" class="headerlink" title="Spring介绍"></a>Spring介绍</h2><p>Spring的核心就是IOC，即Spring来进行很多配置的流程，以及资源的管理。IOC即控制反转，由Spring框架来控制资源。<br>在Spring里，一个实例称为一个bean，bean的创建和销毁都由Spring管理。同时也可以通过Spring<del>轻松</del>实现代理模式，管理方法的运行</p>
+<h2 id="IOC容器"><a href="#IOC容器" class="headerlink" title="IOC容器"></a>IOC容器</h2><h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><p>Spring中Bean工厂里的Map存储机构。<br>Bean工厂主要接口:<code>ApplicationContext</code>。常用的一些上写文都是implement这个接口的。<br>最原始的底层接口为: <code>BeanFactory</code>接口。//可以自己实现这个接口来使用bean对象。<br>存储机构：<code>DefaultListableBeanFactory</code>。//这便是具体存放数据的地方</p>
+<h3 id="创建"><a href="#创建" class="headerlink" title="创建"></a>创建</h3><p>首先介绍几个ApplicationContext子类</p>
+<ol>
+<li><code>ClassPathXmlApplicationContext</code>：从跟路径下加载配置文件</li>
+<li><code>FileSystemXmlApplicationContext</code>: 从磁盘路径加载文件</li>
+<li><code>WebApplicationContext</code>: web容器，一般是配置web.xml的监听器时自动创建</li>
+</ol>
+<p>具体创建：<br><code>ApplicationContext context = new ClassPathXmlApplicationContext(xml路径);</code></p>
+<h2 id="基于XML"><a href="#基于XML" class="headerlink" title="基于XML"></a>基于XML</h2><h3 id="导入maven依赖"><a href="#导入maven依赖" class="headerlink" title="导入maven依赖"></a>导入maven依赖</h3><p><a href="#Maven依赖整合">文章最后,点击跳转</a></p>
+<h3 id="创建xml文件"><a href="#创建xml文件" class="headerlink" title="创建xml文件"></a>创建xml文件</h3><p>在resource目录下创建<code>spring.xml</code>。在文件头部添加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span><br><span class="line">    xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;beans&gt;</span><br></pre></td></tr></table></figure>
+<p>第一行是配置xml版本以及字符编码。<br>后面是一个<code>&lt;bean&gt;</code>标签。其中<br><code>xmlns</code>：XML NameSpace ，用于区分于其他的XML文件。<br><code>xmlns:xsi</code>：XML文件遵循的规范。<br><code>schemaLocation</code>：简单理解为 把URL里的文件引入，在后面的内容中可以使用其中的标签。相当于目标命名空间的格式文档。</p>
+<h3 id="用户接口与实现类"><a href="#用户接口与实现类" class="headerlink" title="用户接口与实现类"></a>用户接口与实现类</h3><p>创建接口<code>UserService</code>,实现类<code>UserServiceImpl</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line">    public void save();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    public void save() &#123;</span><br><span class="line">        System.out.println(&quot;保存用户&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="XML文件配置"><a href="#XML文件配置" class="headerlink" title="XML文件配置"></a>XML文件配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span><br><span class="line">       xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">       xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd&quot;&gt;</span><br><span class="line">    &lt;!--配置bean--&gt;</span><br><span class="line">    &lt;bean class&#x3D;&quot;com.sarise.spring.UserServiceImpl&quot; id&#x3D;&quot;userService&quot;&gt;&lt;&#x2F;bean&gt;</span><br><span class="line">&lt;&#x2F;beans&gt;</span><br></pre></td></tr></table></figure>
+<p>几个注意的地方</p>
+<ol>
+<li>配置的bean写在大的bean标签内部</li>
+<li><code>class</code>写的是实现类的类名(包名需要写)</li>
+<li><code>id</code>是得到实例的时候使用的标识符</li>
+</ol>
+<p>以上我们最简单的实例就实现完毕了</p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>用了Junit测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">package com.sarise.spring;</span><br><span class="line">import org.junit.Before;</span><br><span class="line">import org.springframework.context.ApplicationContext;</span><br><span class="line">import org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line">public class Test &#123;</span><br><span class="line">    ApplicationContext context;</span><br><span class="line">    UserService service;</span><br><span class="line">    @Before</span><br><span class="line">    public void  init()&#123;</span><br><span class="line">        this.context &#x3D; new ClassPathXmlApplicationContext(&quot;Spring.xml&quot;);&#x2F;&#x2F;创建上下文</span><br><span class="line">    &#125;</span><br><span class="line">    @org.junit.Test</span><br><span class="line">    public void testSave()&#123;</span><br><span class="line">        &#x2F;&#x2F;service &#x3D; context.getBean(UserServiceImpl.class);</span><br><span class="line">        service &#x3D; (UserService) context.getBean(&quot;userService&quot;);</span><br><span class="line">        service.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明:</p>
+<ol>
+<li>这里用的<code>ApplicationContext</code>实现类是<code>ClassPathXmlApplicationContext</code>,路径名称就是resource里面的路径。</li>
+<li><code>testSave()</code>里面。<code>context.getBean</code>用于获取bean实例。参数可以有两种 类对象 或者 bean 的 id (就是前面配置的那个)</li>
+<li>稍微讲解一下为什么可以有两种参数。因为bean实例化底层有用到反射机制(即通过类的信息来进行配置)，<code>.class</code>即可传入一个类的信息。并且bean默认情况下是单例，即一个程序只有一个静态实例，只需要类的信息即可定位。另外一个id就不用多说了，直接检索就可以了。//不一定准确，只是用于简单理解</li>
+</ol>
+<h2 id="DI依赖注入-XML"><a href="#DI依赖注入-XML" class="headerlink" title="DI依赖注入_XML"></a>DI依赖注入_XML</h2><p>DI注入的意思是，IOC创建的实例有时候需要参数，DI就是用来注入参数的。<br>参数分成几种类型：</p>
+<ol>
+<li>简单类型: 字符串，数字，bool。</li>
+<li>POJO类型：用户自定义的类。注入时候需要先包装成bean，再注入</li>
+<li>集合类型：主要指的是set，List，Map</li>
+</ol>
+<p>注入的方法有两种//不用直接调用，不过配置bean的时候写法不同，等下就能看到</p>
+<ol>
+<li>构造函数</li>
+<li>setter函数</li>
+</ol>
+<h3 id="简单类型"><a href="#简单类型" class="headerlink" title="简单类型"></a>简单类型</h3><p>首先写一个User类 //我这边为了方便复习重新开了一个工程，当然也可以直接修改上面的<br>结构很简单可以不用看代码，两个参数，getter和setter，构造函数，show()函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class User &#123;</span><br><span class="line">    private int id;</span><br><span class="line">    private String name;</span><br><span class="line">    public User(int id, String name) &#123;this.id &#x3D; id;this.name &#x3D; name;&#125;</span><br><span class="line">    public int getId() &#123; return id;&#125;</span><br><span class="line">    public void setId(int id) &#123;this.id &#x3D; id;&#125;</span><br><span class="line">    public String getName() &#123; return name;&#125;</span><br><span class="line">    public void setName(String name) &#123; this.name &#x3D; name;&#125;</span><br><span class="line">    public void show()&#123;System.out.println(&quot;id:&quot;+id+&quot;  name:&quot;+name);&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置spring.xml</strong></p>
+<ol>
+<li><p>setter法(推荐)//后面也基本是使用这个方法来配置bean</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean class&#x3D;&quot;com.sarise.spring.User&quot; id&#x3D;&quot;user1&quot;&gt;</span><br><span class="line">    &lt;property name&#x3D;&quot;name&quot; value&#x3D;&quot;u1&quot;&#x2F;&gt;</span><br><span class="line">    &lt;property name&#x3D;&quot;id&quot; value&#x3D;&quot;1&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+<p>利用<code>&lt;property&gt;</code>标签来配置, <code>name</code>对应属性名，<code>value</code>对应属性值。需要写相应属性的setter</p>
+</li>
+<li><p>构造函数法 //和上面案例一样的部分不再重复</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean class&#x3D;&quot;com.sarise.spring.User&quot; id&#x3D;&quot;user1&quot;&gt;</span><br><span class="line">    &lt;constructor-arg name&#x3D;&quot;id&quot; value&#x3D;&quot;1&quot;&#x2F;&gt;</span><br><span class="line">    &lt;constructor-arg name&#x3D;&quot;name&quot; value&#x3D;&quot;u1&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+<p>利用<code>&lt;constructor-arg&gt;</code>标签，大体上一样，不过需要写带着这两个参数的构造函数，不然会直接无法运行。//感觉写构造函数太麻烦了，虽然基本上不用自己写，不过没必要。</p>
+</li>
+</ol>
+<p><strong>测试</strong><br>基本上和上面是一样的。用show()输出一下结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    User user1;</span><br><span class="line">    </span><br><span class="line">    @org.junit.Test</span><br><span class="line">    public void testUser()&#123;</span><br><span class="line">        user1 &#x3D; (User) context.getBean(&quot;user1&quot;);</span><br><span class="line">        user1.show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="POJO和List"><a href="#POJO和List" class="headerlink" title="POJO和List"></a>POJO和List</h3><p>集合类型详细介绍List，另外两种给出用法。<br>稍微修改一下<code>UserServiceImpl</code>。添加一个List的属性users，一个User作为管理员admin。<br>//下面的代码省略了getter setter 以及 构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    User admin;</span><br><span class="line">    List&lt;User&gt; users;</span><br><span class="line">    </span><br><span class="line">    public void save() &#123;</span><br><span class="line">        System.out.println(&quot;管理员id:&quot;+admin.getId());</span><br><span class="line">        System.out.println(&quot;保存用户:&quot;);</span><br><span class="line">        for (int i&#x3D;0;i&lt;users.size();i++)&#123;</span><br><span class="line">            users.get(i).show();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>spring.xml</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean class&#x3D;&quot;com.sarise.spring.UserServiceImpl&quot; id&#x3D;&quot;userService&quot;&gt;</span><br><span class="line">    &lt;property name&#x3D;&quot;admin&quot; ref&#x3D;&quot;user1&quot;&#x2F;&gt;</span><br><span class="line">    &lt;property name&#x3D;&quot;users&quot;&gt;</span><br><span class="line">        &lt;list&gt;</span><br><span class="line">            &lt;ref bean&#x3D;&quot;user1&quot;&gt;&lt;&#x2F;ref&gt;</span><br><span class="line">            &lt;bean class&#x3D;&quot;com.sarise.spring.User&quot; &gt;</span><br><span class="line">                &lt;property name&#x3D;&quot;id&quot; value&#x3D;&quot;2&quot;&#x2F;&gt;</span><br><span class="line">                &lt;property name&#x3D;&quot;name&quot; value&#x3D;&quot;u2&quot;&#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;bean&gt;</span><br><span class="line">            &lt;bean class&#x3D;&quot;com.sarise.spring.User&quot; &gt;</span><br><span class="line">                &lt;property name&#x3D;&quot;id&quot; value&#x3D;&quot;3&quot;&#x2F;&gt;</span><br><span class="line">                &lt;property name&#x3D;&quot;name&quot; value&#x3D;&quot;u3&quot;&#x2F;&gt;</span><br><span class="line">            &lt;&#x2F;bean&gt;</span><br><span class="line">        &lt;&#x2F;list&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;bean&gt;</span><br></pre></td></tr></table></figure>
+<p>注意点:</p>
+<ol>
+<li>admin传入是通过<code>ref</code>，通过id引用了上面创建的bean实例</li>
+<li>List对象构造通过<code>List</code>标签，如果是简单属性直接用<code>&lt;value&gt;</code>配置，如果是POJO则使用<code>&lt;bean&gt;</code>或者<code>&lt;ref&gt;</code></li>
+</ol>
+<h3 id="Set和Map"><a href="#Set和Map" class="headerlink" title="Set和Map"></a>Set和Map</h3><p>set和list差不多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;property name&#x3D;&quot;sets&quot;&gt;</span><br><span class="line">        &lt;set&gt;</span><br><span class="line">			&#x2F;&#x2F;如果集合内是简单类型，使用value子标签，如果是POJO类型，则使用bean标签</span><br><span class="line">            &lt;value&gt;哈哈&lt;&#x2F;value&gt;</span><br><span class="line">            &lt;value&gt;呵呵&lt;&#x2F;value&gt;</span><br><span class="line">        &lt;&#x2F;set&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br></pre></td></tr></table></figure>
+<p>Map有两种写法<br>应该挺容易看懂的，和上面大同小异，带上ref就是引用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;property name&#x3D;&quot;map&quot;&gt;</span><br><span class="line">        &lt;map&gt;</span><br><span class="line">            &lt;entry key&#x3D;&quot;k1&quot; value&#x3D;&quot;38&quot;&#x2F;&gt;</span><br><span class="line">            &lt;entry key&#x3D;&quot;k2&quot; value&#x3D;&quot;38&quot;&#x2F;&gt;</span><br><span class="line">            &lt;entry key&#x3D;&quot;k3&quot; value&#x3D;&quot;29&quot;&#x2F;&gt;</span><br><span class="line">        &lt;&#x2F;map&gt;</span><br><span class="line">&lt;&#x2F;property&gt;</span><br><span class="line">----------------------------map部分可以如以下写法。</span><br><span class="line">&lt;map&gt;</span><br><span class="line">  &lt;entry key&#x3D;&quot;k1&quot;&gt;</span><br><span class="line">    　&lt;value&gt;v1&lt;&#x2F;value&gt;</span><br><span class="line">  &lt;&#x2F;entry&gt;</span><br><span class="line">&lt;&#x2F;map&gt;</span><br><span class="line">&lt;map&gt;</span><br><span class="line">    &lt;entry key&#x3D;&quot;k1&quot; value-ref&#x3D;&quot;v1&quot; &#x2F;&gt;</span><br><span class="line">    &lt;entry key&#x3D;&quot;k2&quot; value-ref&#x3D;&quot;v1&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;map&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="使用注解注入"><a href="#使用注解注入" class="headerlink" title="使用注解注入"></a>使用注解注入</h2><p>这边的知识点比较多。慢慢讲。</p>
+<h3 id="spring-xml中需要引入context标签"><a href="#spring-xml中需要引入context标签" class="headerlink" title="spring.xml中需要引入context标签"></a>spring.xml中需要引入context标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span><br><span class="line">       xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">       xmlns:context&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&quot;</span><br><span class="line">       </span><br><span class="line">       xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&#x2F;spring-context.xsd&quot;</span><br><span class="line">        &gt;</span><br><span class="line">&lt;&#x2F;beans&gt;</span><br></pre></td></tr></table></figure>
+<p>重点在于三行:<br><code>xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</code><br><code>http://www.springframework.org/schema/context</code><br><code>http://www.springframework.org/schema/context/spring-context.xsd</code><br>关于这几行的含义前面几乎都提了，就是引入了context标签的文档。我们接下来就可以使用context标签。</p>
+<h3 id="开启注解"><a href="#开启注解" class="headerlink" title="开启注解"></a>开启注解</h3><p>Spring会扫描这边的包，可以扫描多个包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--开启注解，并且扫描指定的包中带有注解的类--&gt;</span><br><span class="line">&lt;context:component-scan base-package&#x3D;&quot;com.sarise.spring&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用注解"><a href="#使用注解" class="headerlink" title="使用注解"></a>使用注解</h3><p>开启了注解之后，我们来康康怎么使用注解来进行依赖注入。<br>User类： //省略了getter setter 以及 构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@Component(value &#x3D; &quot;user1&quot;)</span><br><span class="line">public class User &#123;</span><br><span class="line">    @Value(value &#x3D; &quot;1&quot;)</span><br><span class="line">    private int id;</span><br><span class="line"></span><br><span class="line">    @Value(value &#x3D; &quot;$&#123;admin.name&#125;&quot;)</span><br><span class="line">    private String name;</span><br><span class="line"></span><br><span class="line">    public void show()&#123;</span><br><span class="line">        System.out.println(&quot;id:&quot;+id+&quot;  name:&quot;+name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子中使用了两个标签 @Component  @Value</p>
+<h4 id="Component"><a href="#Component" class="headerlink" title="@Component"></a>@Component</h4><p>这个标签相当于xml中的<code>&lt;bean&gt;</code>标签，<code>value</code>配置的是这个bean的id。<br>这个标签有几种其他的写法: <code>@Controller</code> <code>@Service</code> <code>@Repository</code>。并没有功能上的差异，只是语义上更加具体。</p>
+<h4 id="Value"><a href="#Value" class="headerlink" title="@Value"></a>@Value</h4><p>用来赋值。简单属性赋值如上面的<code>id</code>。<br>也可以使用<code>.properties</code>或者<code>.yml</code>文件的内容注入。这边只简单介绍<code>.properties</code>，即上面的<code>name</code>属性。<code>${}</code>为占位符，在配置之后可以读取对应文件中的信息。<br><strong>使用properties：</strong><br>在resource下创建 <code>admin.properties</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">admin.id &#x3D; 221801317</span><br><span class="line">admin.name &#x3D; sarise</span><br></pre></td></tr></table></figure>
+<p>在spring.xml添加:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--location:表示要加载的properties文件的路径--&gt;</span><br><span class="line">&lt;context:property-placeholder location&#x3D;&quot;classpath:admin.properties&quot;&#x2F;&gt;</span><br><span class="line">&lt;!--可以添加多个文件，只需添加属性ignore-unresolvable&#x3D;&quot;true&quot;，路径之间,隔开--&gt;</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.520mwx.com/view/54688" target="_blank" rel="noopener">具体的解析可以查看这里</a></p>
+<p>UserServiceImpl类：//同样省略getter setter 构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line">    @Resource(name &#x3D; &quot;user1&quot;)</span><br><span class="line">    User admin;</span><br><span class="line">    public void save() &#123;</span><br><span class="line">        System.out.println(&quot;管理员id:&quot;+admin.getId());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Resource-Autowired-Qualifier"><a href="#Resource-Autowired-Qualifier" class="headerlink" title="@Resource @Autowired @Qualifier"></a>@Resource @Autowired @Qualifier</h4><p>这个就是POJO类型的依赖注入。这三个注解有所不同</p>
+<ol>
+<li><code>@Resource</code>: 默认按照名称(id)进行装配，可以通过name 来指定id，缺省则为字段名。定义了name的状态下<strong>只能</strong>通过名称装配，缺省状态下找不到匹配名称就按照类型装配。不属于Spring，属于J2EE。大概用这个降耦合度，不过我暂时感受不到差别。</li>
+<li><code>@Autowired</code>:按照类型装配。如果想使用名称装配可以结合@Qualifier注解进行使用</li>
+<li><code>@Qualifier</code>:在自动按照类型注入的基础之上，再按照 Bean 的 id 注入。它在给字段注入时不能独立使用，必须和@Autowire 一起使用；但是给方法参数注入时，可以独立使用。用的不多<del>我也不会</del></li>
+</ol>
+<h4 id="spring配置文件展示"><a href="#spring配置文件展示" class="headerlink" title="spring配置文件展示"></a>spring配置文件展示</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&quot;</span><br><span class="line">       xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;</span><br><span class="line">       xmlns:context&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&quot;</span><br><span class="line">       xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;beans&#x2F;spring-beans.xsd</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context</span><br><span class="line">        http:&#x2F;&#x2F;www.springframework.org&#x2F;schema&#x2F;context&#x2F;spring-context.xsd&quot;</span><br><span class="line">        &gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--开启注解，并且扫描指定的包中带有注解的类--&gt;</span><br><span class="line">    &lt;context:component-scan base-package&#x3D;&quot;com.sarise.spring&quot;&#x2F;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--location:表示要加载的properties文件的路径--&gt;</span><br><span class="line">    &lt;context:property-placeholder location&#x3D;&quot;classpath:admin.properties&quot;&#x2F;&gt;</span><br><span class="line">    &lt;!--可以添加多个文件，只需添加属性ignore-unresolvable&#x3D;&quot;true&quot;，路径之间,隔开--&gt;</span><br><span class="line">&lt;&#x2F;beans&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="纯注解"><a href="#纯注解" class="headerlink" title="纯注解"></a>纯注解</h2><p>//有空闲时间的话自己去了解一下就好了,一般是不会用到的。只不过是把xml写成了一个类而已，本质上是一样的。</p>
+<h2 id="Maven依赖整合"><a href="#Maven依赖整合" class="headerlink" title="Maven依赖整合"></a>Maven依赖整合</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- spring 核心组件中的4个依赖 --&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-core&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;5.0.7.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-context&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;5.0.7.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;spring-beans&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;5.0.7.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-expression&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;5.0.7.RELEASE&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		 &lt;!-- 单元测试Junit --&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;junit&lt;&#x2F;groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;junit&lt;&#x2F;artifactId&gt;</span><br><span class="line">			&lt;version&gt;4.12&lt;&#x2F;version&gt;</span><br><span class="line">		&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>//假设我有时间写这个</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Someting-before-start"><span class="toc-number">1.</span> <span class="toc-text">Someting before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用法查询目录"><span class="toc-number">2.</span> <span class="toc-text">用法查询目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Spring介绍"><span class="toc-number">3.</span> <span class="toc-text">Spring介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#IOC容器"><span class="toc-number">4.</span> <span class="toc-text">IOC容器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#是什么"><span class="toc-number">4.1.</span> <span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建"><span class="toc-number">4.2.</span> <span class="toc-text">创建</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于XML"><span class="toc-number">5.</span> <span class="toc-text">基于XML</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#导入maven依赖"><span class="toc-number">5.1.</span> <span class="toc-text">导入maven依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建xml文件"><span class="toc-number">5.2.</span> <span class="toc-text">创建xml文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用户接口与实现类"><span class="toc-number">5.3.</span> <span class="toc-text">用户接口与实现类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XML文件配置"><span class="toc-number">5.4.</span> <span class="toc-text">XML文件配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#测试"><span class="toc-number">5.5.</span> <span class="toc-text">测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DI依赖注入-XML"><span class="toc-number">6.</span> <span class="toc-text">DI依赖注入_XML</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单类型"><span class="toc-number">6.1.</span> <span class="toc-text">简单类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POJO和List"><span class="toc-number">6.2.</span> <span class="toc-text">POJO和List</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set和Map"><span class="toc-number">6.3.</span> <span class="toc-text">Set和Map</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用注解注入"><span class="toc-number">7.</span> <span class="toc-text">使用注解注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#spring-xml中需要引入context标签"><span class="toc-number">7.1.</span> <span class="toc-text">spring.xml中需要引入context标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#开启注解"><span class="toc-number">7.2.</span> <span class="toc-text">开启注解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用注解"><span class="toc-number">7.3.</span> <span class="toc-text">使用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Component"><span class="toc-number">7.3.1.</span> <span class="toc-text">@Component</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Value"><span class="toc-number">7.3.2.</span> <span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Resource-Autowired-Qualifier"><span class="toc-number">7.3.3.</span> <span class="toc-text">@Resource @Autowired @Qualifier</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#spring配置文件展示"><span class="toc-number">7.3.4.</span> <span class="toc-text">spring配置文件展示</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#纯注解"><span class="toc-number">8.</span> <span class="toc-text">纯注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Maven依赖整合"><span class="toc-number">9.</span> <span class="toc-text">Maven依赖整合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#源码分析"><span class="toc-number">10.</span> <span class="toc-text">源码分析</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/05/08/spring-01-IOC/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&text= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&is_video=false&description= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= spring_01_IOC&body=Check out this article: http://aosarise.github.io/2020/05/08/spring-01-IOC/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&title= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/05/08/spring-01-IOC/&name= spring_01_IOC&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/05/08/spring-01-IOC/&t= spring_01_IOC" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

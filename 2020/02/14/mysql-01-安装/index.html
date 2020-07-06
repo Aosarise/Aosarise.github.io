@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" mysql_01_安装">
+<meta property="og:url" content="http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-14T08:05:15.000Z">
+<meta property="article:modified_time" content="2020-05-30T11:53:37.541Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> mysql_01_安装</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/02/14/mysql-02-%E5%9F%BA%E7%A1%80/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/02/12/redis-04-%E9%9B%86%E7%BE%A4/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&text= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&is_video=false&description= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= mysql_01_安装&body=Check out this article: http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&name= mysql_01_安装&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&t= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考的教程记录"><span class="toc-number">1.</span> <span class="toc-text">参考的教程记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#上传rpm包"><span class="toc-number">1.1.</span> <span class="toc-text">上传rpm包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum安装"><span class="toc-number">1.2.</span> <span class="toc-text">yum安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动mysql"><span class="toc-number">1.3.</span> <span class="toc-text">启动mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置密码"><span class="toc-number">1.4.</span> <span class="toc-text">设置密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登陆"><span class="toc-number">1.5.</span> <span class="toc-text">登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置大小写不敏感"><span class="toc-number">1.6.</span> <span class="toc-text">设置大小写不敏感</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的安装流程-Linux"><span class="toc-number">2.</span> <span class="toc-text">我的安装流程(Linux)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软件包指定"><span class="toc-number">2.1.</span> <span class="toc-text">软件包指定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动mysql-1"><span class="toc-number">2.2.</span> <span class="toc-text">启动mysql</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         mysql_01_安装
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-02-14T08:05:15.000Z" itemprop="datePublished">2020-02-14</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/mysql/" rel="tag">mysql</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">┌────────────────────────────────────────────────────────────┐</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨_|_|▨▨▨▨_|▨▨_|_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|▨▨▨▨▨▨_|_|_|▨▨▨▨▨▨_|_|▨▨_|▨▨_|_|_|_|▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨____▨▨▨▨▨▨▨▨▨_▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F; __&#x2F;__▨_____(_)__▨___▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F;□□□&#x2F;□□□&#x2F;\ \&#x2F; _ &#96;&#x2F; __&#x2F; (_-&lt;&#x2F; -_)▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨&#x2F;___&#x2F;\_,_&#x2F;_&#x2F;▨&#x2F;_&#x2F;___&#x2F;\__&#x2F;▨▨▨▨▨│</span><br><span class="line">│▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨▨│</span><br><span class="line">└────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考的教程记录"><a href="#参考的教程记录" class="headerlink" title="参考的教程记录"></a>参考的教程记录</h2><p>先记录一下教程的安装，等后面我的服务器稳定了，我再记录一下自己安装的过程。</p>
+<h3 id="上传rpm包"><a href="#上传rpm包" class="headerlink" title="上传rpm包"></a>上传rpm包</h3><p><strong><a href="#软件包指定">关于新版安装包的细节需要查看下面我的记录</a></strong>。这边的记录已经很老旧了。建议开始看官网，说的比较清楚也很新。</p>
+<p>包名:<code>mysql-community-release-el6-5.noarch.rpm</code><br>在线安装，需要rpm包设定版本，没有这个的话默认是下载最新的。原因是现在比较普遍用的是5.5左右的版本，而且个人租的服务器确实配置不高，太高版本一个是没必要，一个是装不动。<br>传到<code>/local/user/</code>目录下。<a href="http://dev.mysql.com/downloads/repo/yum/" target="_blank" rel="noopener">点击这里下载适应的包</a><br>查看mysql有没有存在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#查看</span><br><span class="line">rpm -qa|grep mysql</span><br><span class="line"></span><br><span class="line">#删除</span><br><span class="line">yum remove mysql mysql-server mysql-libs mysql-common</span><br><span class="line">#删除目录 删除之前可以先看下有没有</span><br><span class="line">rm -rf &#x2F;var&#x2F;lib&#x2F;mysql</span><br><span class="line">rm &#x2F;etc&#x2F;my.cnf</span><br></pre></td></tr></table></figure>
+<h3 id="yum安装"><a href="#yum安装" class="headerlink" title="yum安装"></a>yum安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#后面那个就是刚才的包名 这一步导入rpm包 记得要到对应目录下</span><br><span class="line">yum localinstall mysql-community-release-el6-5.noarch.rpm </span><br><span class="line"></span><br><span class="line">#安装mysql</span><br><span class="line">yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+<h3 id="启动mysql"><a href="#启动mysql" class="headerlink" title="启动mysql"></a>启动mysql</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start</span><br><span class="line"></span><br><span class="line">#查看密码</span><br><span class="line">vim &#x2F;var&#x2F;log&#x2F;mysqld.log </span><br><span class="line">#找到这句</span><br><span class="line">2020-02-28T08:38:18.681695Z 1 [Note] A temporary password is generated for root@localhost: O89iC&amp;tw)SSh </span><br><span class="line"></span><br><span class="line">#登陆，回车后输入上面的密码</span><br><span class="line">mysql -uroot -p</span><br><span class="line">#设置密码</span><br><span class="line">SET PASSWORD &#x3D; PASSWORD(&#39;你要设置的密码&#39;);</span><br></pre></td></tr></table></figure>
+<h3 id="设置密码"><a href="#设置密码" class="headerlink" title="设置密码"></a>设置密码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#new-password 替换成想要设置的密码</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;mysqladmin -u root password &#39;new-password&#39;</span><br></pre></td></tr></table></figure>
+<h3 id="登陆"><a href="#登陆" class="headerlink" title="登陆"></a>登陆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line"></span><br><span class="line">#如果不行的话 假设密码为root。这么写</span><br><span class="line">mysql -u root -proot</span><br></pre></td></tr></table></figure>
+<p><strong>远程登录</strong>，需要授权</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#&#39;myuser&#39;、&#39;mypassword&#39; 需要替换成实际的用户名和密码。</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;Root123.&#39; WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<h3 id="设置大小写不敏感"><a href="#设置大小写不敏感" class="headerlink" title="设置大小写不敏感"></a>设置大小写不敏感</h3><p><strong>Linux</strong>默认大小写敏感。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#在&#x2F;etc&#x2F;my.cnf 中的[mysqld]后添加添加 0：区分大小写，1：不区分大小写 </span><br><span class="line">lower_case_table_names&#x3D;1</span><br><span class="line"></span><br><span class="line">#重启</span><br><span class="line">service mysqld restart</span><br></pre></td></tr></table></figure>
+
+<h2 id="我的安装流程-Linux"><a href="#我的安装流程-Linux" class="headerlink" title="我的安装流程(Linux)"></a>我的安装流程(Linux)</h2><p>主要记录不一样的地方。还有问题。<br>首先官网下载的yum mysql 软件包不能直接指定版本。所以官网下载之后还是需要命令行指定<br>另外yum本身可以搜索到列表，以及删除已经存在的软件包<del>（以下是我反复横跳的记录）</del></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#查看已经安装的mysql软件包，*是占位符</span><br><span class="line">#mysql可以不加，那就是所有的已经安装的</span><br><span class="line">yum list installed MySQL*</span><br><span class="line"></span><br><span class="line">#删</span><br><span class="line">yum remove mysql80-community-release.noarch</span><br></pre></td></tr></table></figure>
+<p>其他的补充的，可参考<a href="#https://www.jianshu.com/p/e67a5fe915c8">别人的博客</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#可以更新的软件包</span><br><span class="line">yum list updates</span><br><span class="line"></span><br><span class="line">#查找软件包</span><br><span class="line">yum search</span><br></pre></td></tr></table></figure>
+<h3 id="软件包指定"><a href="#软件包指定" class="headerlink" title="软件包指定"></a>软件包指定</h3><p><strong>注意要下载匹配自己Linux版本的</strong><br>比如<code>Red Hat Enterprise Linux 7 / Oracle Linux 7 (Architecture Independent), RPM Package</code> 对应的就是<code>Centos7.x</code>、<code>CloudLinux 7.x</code>和<code>Hat7.x</code>.<br><del>就是因为这个我没看好，结果一直提示缺乏依赖</del></p>
+<p>接下来是指定版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#查看mysql的储存库，可以看到什么是被禁用的。默认是用8.0</span><br><span class="line">yum repolist all | grep mysql</span><br><span class="line"></span><br><span class="line">#禁用80</span><br><span class="line">sudo yum-config-manager --disable mysql80-community</span><br><span class="line">#启用57</span><br><span class="line">sudo yum-config-manager --enable mysql57-community</span><br><span class="line"></span><br><span class="line">#查看是否启用了正确的库</span><br><span class="line">yum repolist enabled | grep mysql</span><br><span class="line"># 显示以下三个</span><br><span class="line"># mysql-connectors-community&#x2F;x86_64 MySQL Connectors Community                 </span><br><span class="line"># mysql-tools-community&#x2F;x86_64      MySQL Tools Community                       </span><br><span class="line"># mysql57-community&#x2F;x86_64          MySQL 5.7 Community Server </span><br><span class="line"></span><br><span class="line">#安装</span><br><span class="line">sudo yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+<h3 id="启动mysql-1"><a href="#启动mysql-1" class="headerlink" title="启动mysql"></a>启动mysql</h3><p>因为yum安装的时候其实看不到那些信息(至少我没看到)，所以需要找到日志文件。而且5.7之后是不支持无密码登录的，所以不可以直接无密码登陆，不然等待你的是<code>error: &#39;Access denied for user &#39;root&#39;@&#39;localhost&#39; (using password: NO)&#39;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start</span><br><span class="line"></span><br><span class="line">#查看密码</span><br><span class="line">vim &#x2F;var&#x2F;log&#x2F;mysqld.log </span><br><span class="line">#找到这句</span><br><span class="line">2020-02-28T08:38:18.681695Z 1 [Note] A temporary password is generated for root@localhost: O89iC&amp;tw)SSh </span><br><span class="line"></span><br><span class="line">#登陆，回车后输入上面的密码</span><br><span class="line">mysql -uroot -p</span><br><span class="line">#设置密码</span><br><span class="line">SET PASSWORD &#x3D; PASSWORD(&#39;你要设置的密码&#39;);</span><br></pre></td></tr></table></figure>
+<p><del>怕我自己忘了我的密码记一下Root123.</del></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#参考的教程记录"><span class="toc-number">1.</span> <span class="toc-text">参考的教程记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#上传rpm包"><span class="toc-number">1.1.</span> <span class="toc-text">上传rpm包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yum安装"><span class="toc-number">1.2.</span> <span class="toc-text">yum安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动mysql"><span class="toc-number">1.3.</span> <span class="toc-text">启动mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置密码"><span class="toc-number">1.4.</span> <span class="toc-text">设置密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#登陆"><span class="toc-number">1.5.</span> <span class="toc-text">登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置大小写不敏感"><span class="toc-number">1.6.</span> <span class="toc-text">设置大小写不敏感</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的安装流程-Linux"><span class="toc-number">2.</span> <span class="toc-text">我的安装流程(Linux)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#软件包指定"><span class="toc-number">2.1.</span> <span class="toc-text">软件包指定</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动mysql-1"><span class="toc-number">2.2.</span> <span class="toc-text">启动mysql</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&text= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&is_video=false&description= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= mysql_01_安装&body=Check out this article: http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&title= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&name= mysql_01_安装&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/02/14/mysql-01-%E5%AE%89%E8%A3%85/&t= mysql_01_安装" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
