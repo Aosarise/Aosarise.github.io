@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Something before start这里用的技术是logbback，和log4j出自同一个人，据说性能更优，不过我也不懂日志文件更优有啥用hhhhhhhh。目前对我来说，日志最有意义的地方也就看看sql语句有没有问题啥的，其他的暂时还没有很大的感觉。 依赖需要：springboot-starter-logging依赖。然而这个依赖在 spring-starter-web 有了。有两种开启方">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" springboot_03_日志">
+<meta property="og:url" content="http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="Something before start这里用的技术是logbback，和log4j出自同一个人，据说性能更优，不过我也不懂日志文件更优有啥用hhhhhhhh。目前对我来说，日志最有意义的地方也就看看sql语句有没有问题啥的，其他的暂时还没有很大的感觉。 依赖需要：springboot-starter-logging依赖。然而这个依赖在 spring-starter-web 有了。有两种开启方">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-08T07:37:56.000Z">
+<meta property="article:modified_time" content="2020-07-09T08:01:53.542Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> springboot_03_日志</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/07/09/springboot-04-Redis/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/07/06/springboot-02-mybatis/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&text= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&is_video=false&description= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= springboot_03_日志&body=Check out this article: http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&name= springboot_03_日志&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&t= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖"><span class="toc-number">2.</span> <span class="toc-text">依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring配置文件内配置"><span class="toc-number">3.</span> <span class="toc-text">spring配置文件内配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#logback-xml"><span class="toc-number">4.</span> <span class="toc-text">logback.xml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详细说明"><span class="toc-number">5.</span> <span class="toc-text">详细说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#logback查找文件顺序"><span class="toc-number">5.1.</span> <span class="toc-text">logback查找文件顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种日志系统文件名字"><span class="toc-number">5.2.</span> <span class="toc-text">各种日志系统文件名字</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         springboot_03_日志
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-07-08T07:37:56.000Z" itemprop="datePublished">2020-07-08</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a> › <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/Spring/">Spring</a> › <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/Spring/SpringBoot/">SpringBoot</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Something-before-start"><a href="#Something-before-start" class="headerlink" title="Something before start"></a>Something before start</h2><p>这里用的技术是logbback，和log4j出自同一个人，据说性能更优，不过我也不懂日志文件更优有啥用hhhhhhhh。<br>目前对我来说，日志最有意义的地方也就看看sql语句有没有问题啥的，其他的暂时还没有很大的感觉。</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><p>需要：<code>springboot-starter-logging</code>依赖。<br>然而这个依赖在 <code>spring-starter-web</code> 有了。<br>有两种开启方法<br>springboot配置文件</p>
+<h2 id="spring配置文件内配置"><a href="#spring配置文件内配置" class="headerlink" title="spring配置文件内配置"></a>spring配置文件内配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 日志</span><br><span class="line"># 控制日志显示格式</span><br><span class="line"># 等级  信息 换行</span><br><span class="line">logging.pattern.console&#x3D;%level %msg%n</span><br><span class="line"># 日志显示级别</span><br><span class="line">logging.level.root&#x3D;warn</span><br><span class="line">logging.level.live.sarise.mybatisdemo.dao&#x3D;debug</span><br></pre></td></tr></table></figure>
+
+<h2 id="logback-xml"><a href="#logback-xml" class="headerlink" title="logback.xml"></a>logback.xml</h2><p>在resource下创建文件<code>logback.xml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;configuration debug&#x3D;&quot;false&quot;&gt;</span><br><span class="line">    &lt;!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径--&gt;</span><br><span class="line">    &lt;property name&#x3D;&quot;LOG_HOME&quot; value&#x3D;&quot;&#x2F;home&quot; &#x2F;&gt;</span><br><span class="line">    &lt;!-- 控制台输出 --&gt;</span><br><span class="line">    &lt;appender name&#x3D;&quot;STDOUT&quot; class&#x3D;&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;</span><br><span class="line">        &lt;encoder class&#x3D;&quot;ch.qos.logback.classic.encoder.PatternLayoutEncoder&quot;&gt;</span><br><span class="line">            &lt;!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符--&gt;</span><br><span class="line">            &lt;pattern&gt;%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%thread] %-5level %logger&#123;50&#125; - %msg%n&lt;&#x2F;pattern&gt;</span><br><span class="line">        &lt;&#x2F;encoder&gt;</span><br><span class="line">    &lt;&#x2F;appender&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- 日志输出级别 --&gt;</span><br><span class="line">    &lt;root level&#x3D;&quot;INFO&quot;&gt;</span><br><span class="line">        &lt;appender-ref ref&#x3D;&quot;STDOUT&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;root&gt;</span><br><span class="line"></span><br><span class="line">    &lt;logger name&#x3D;&quot;live.sarise.mybatisdemo.dao&quot; level&#x3D;&quot;DEBUG&quot;&gt;&lt;&#x2F;logger&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="详细说明"><a href="#详细说明" class="headerlink" title="详细说明"></a>详细说明</h2><h3 id="logback查找文件顺序"><a href="#logback查找文件顺序" class="headerlink" title="logback查找文件顺序"></a>logback查找文件顺序</h3><p>1.logback首先会试着查找logback.groovy文件;<br>2.当没有找到时，继续试着查找logback-test.xml文件;<br>3.当没有找到时，继续试着查找logback.xml文件;<br>4.如果仍然没有找到，则使用默认配置（打印到控制台）。</p>
+<h3 id="各种日志系统文件名字"><a href="#各种日志系统文件名字" class="headerlink" title="各种日志系统文件名字"></a>各种日志系统文件名字</h3><p>根据不同的日志系统，你可以按如下规则组织配置文件名，就能被正确加载：<br>Logback：logback-spring.xml, logback-spring.groovy, logback.xml, logback.groovy<br>Log4j：log4j-spring.properties, log4j-spring.xml, log4j.properties, log4j.xml<br>Log4j2：log4j2-spring.xml, log4j2.xml<br>JDK (Java Util Logging)：logging.properties<br>Spring Boot官方推荐优先使用带有-spring的文件名作为你的日志配置（如使用logback-spring.xml，而不是logback.xml），命名为logback-spring.xml的日志配置文件，spring boot可以为它添加一些spring boot特有的配置项。<br>默认的命名规则，并且放在 src/main/resources 下面即可</p>
+<p>如果你即想完全掌控日志配置，但又不想用logback.xml作为Logback配置的名字，application.yml可以通过logging.config属性指定自定义的名字：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logging.config&#x3D;classpath:logging-config.xml</span><br></pre></td></tr></table></figure>
+
+<p><a href="#https://blog.csdn.net/qq_36850813/article/details/83092051">参考网站</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依赖"><span class="toc-number">2.</span> <span class="toc-text">依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#spring配置文件内配置"><span class="toc-number">3.</span> <span class="toc-text">spring配置文件内配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#logback-xml"><span class="toc-number">4.</span> <span class="toc-text">logback.xml</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#详细说明"><span class="toc-number">5.</span> <span class="toc-text">详细说明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#logback查找文件顺序"><span class="toc-number">5.1.</span> <span class="toc-text">logback查找文件顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#各种日志系统文件名字"><span class="toc-number">5.2.</span> <span class="toc-text">各种日志系统文件名字</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&text= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&is_video=false&description= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= springboot_03_日志&body=Check out this article: http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&title= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&name= springboot_03_日志&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/07/08/springboot-03-%E6%97%A5%E5%BF%97/&t= springboot_03_日志" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

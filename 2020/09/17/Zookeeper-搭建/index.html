@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Something before start记录一下zookeeper的安装流程。分为单机版和集群版本。&#x2F;&#x2F;因为目前我没有那么多的服务器，也懒得去搞虚拟机，所以采用的是伪集群 单机版本下载点击这里下载需要的版本，我这边下载的是apache-zookeeper-3.6.2-bin.tar &#x2F;&#x2F;注意这里下载的是bin，不是另外的版本解压到一个熟悉的地方，我就一如既往放在local目录 &#x2F;usr&#x2F;loc">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" Zookeeper-搭建">
+<meta property="og:url" content="http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/index.html">
+<meta property="og:site_name" content="Sarise‘s Blog">
+<meta property="og:description" content="Something before start记录一下zookeeper的安装流程。分为单机版和集群版本。&#x2F;&#x2F;因为目前我没有那么多的服务器，也懒得去搞虚拟机，所以采用的是伪集群 单机版本下载点击这里下载需要的版本，我这边下载的是apache-zookeeper-3.6.2-bin.tar &#x2F;&#x2F;注意这里下载的是bin，不是另外的版本解压到一个熟悉的地方，我就一如既往放在local目录 &#x2F;usr&#x2F;loc">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-17T15:12:28.000Z">
+<meta property="article:modified_time" content="2020-09-26T04:35:37.781Z">
+<meta property="article:author" content="Sarise">
+<meta property="article:tag" content="学！">
+<meta property="article:tag" content="backend_java">
+<meta property="article:tag" content="zookeeper">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title> Zookeeper-搭建</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2020/09/28/nginx-%E6%90%AD%E5%BB%BA-%E7%BC%96%E8%AF%91%E6%BA%90%E7%A0%81%E6%96%B9%E5%BC%8F/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2020/09/02/Webflux-01-%E4%BB%8B%E7%BB%8D/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&text= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&is_video=false&description= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= Zookeeper-搭建&body=Check out this article: http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&name= Zookeeper-搭建&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&t= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单机版本"><span class="toc-number">2.</span> <span class="toc-text">单机版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">2.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行"><span class="toc-number">2.3.</span> <span class="toc-text">运行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集群版"><span class="toc-number">3.</span> <span class="toc-text">集群版</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础配置"><span class="toc-number">3.1.</span> <span class="toc-text">基础配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文件结构"><span class="toc-number">3.1.1.</span> <span class="toc-text">文件结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置文件-1"><span class="toc-number">3.1.2.</span> <span class="toc-text">配置文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置myid"><span class="toc-number">3.2.</span> <span class="toc-text">配置myid</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件里设置集群的各服务器"><span class="toc-number">3.3.</span> <span class="toc-text">配置文件里设置集群的各服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加Observer"><span class="toc-number">3.4.</span> <span class="toc-text">添加Observer</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+         Zookeeper-搭建
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Sarise‘s Blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-09-17T15:12:28.000Z" itemprop="datePublished">2020-09-17</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a> › <a class="category-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/backend-java/" rel="tag">backend_java</a>, <a class="tag-link" href="/tags/zookeeper/" rel="tag">zookeeper</a>, <a class="tag-link" href="/tags/%E5%AD%A6%EF%BC%81/" rel="tag">学！</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Something-before-start"><a href="#Something-before-start" class="headerlink" title="Something before start"></a>Something before start</h2><p>记录一下zookeeper的安装流程。分为单机版和集群版本。//因为目前我没有那么多的服务器，也懒得去搞虚拟机，所以采用的是伪集群</p>
+<h2 id="单机版本"><a href="#单机版本" class="headerlink" title="单机版本"></a>单机版本</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p><a href="https://downloads.apache.org/zookeeper/zookeeper-3.6.2/" target="_blank" rel="noopener">点击这里</a>下载需要的版本，我这边下载的是<code>apache-zookeeper-3.6.2-bin.tar</code> //注意这里下载的是bin，不是另外的版本<br><strong>解压到一个熟悉的地方</strong>，我就一如既往放在local目录 <code>/usr/local/zookeeper/single/</code><br>//single文件夹放的是单机版，后面集群版也是放在这个zookeeper文件夹下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#创建目录</span><br><span class="line">mkdir -p &#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;single&#x2F;</span><br><span class="line"></span><br><span class="line">然后自己想办法解压到这个目录里就行了 我自己电脑直接拖进去的 命令有点记不清了</span><br></pre></td></tr></table></figure>
+<p><strong>软链接</strong> （非必要，只是方便</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 建立软连接 这里之后访问目录就可以用zookeeper 替代 apache-zookeeper-3.6.2-bin</span><br><span class="line"># 软连接可以简单理解成 快捷链接 这里在single目录下 ll 可以看到生成了一个另外的名称为zookeeper的映射 因为后面要配置环境变量 以后更新版本只需要更新映射 而不用更新环境变量</span><br><span class="line">ln -s &#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;single&#x2F;apache-zookeeper-3.6.2-bin &#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;single&#x2F;zookeeper</span><br></pre></td></tr></table></figure>
+<p><strong>环境变量配置</strong>。我这里是配置<code>~/.bash_proflie</code><br>添加一句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;$&#123;PATH&#125;:&#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;single&#x2F;zookeeper&#x2F;bin&#96;</span><br></pre></td></tr></table></figure>
+<h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>先到目录 <code>/usr/local/zookeeper/single/zookeeper</code>下<br><strong>定位到配置文件目录</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd conf</span><br></pre></td></tr></table></figure>
+<p><strong>查看一下该目录</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> ll                     ✔  2333  23:53:26</span><br><span class="line">total 32</span><br><span class="line">-rw-rw-r--@ 1 sarisemac  staff   535B  9  4 20:43 configuration.xsl</span><br><span class="line">-rw-rw-r--@ 1 sarisemac  staff   3.4K  9  4 20:43 log4j.properties</span><br><span class="line">-rw-rw-r--@ 1 sarisemac  staff   1.1K  9  4 20:43 zoo_sample.cfg</span><br></pre></td></tr></table></figure>
+<p><code>zoo_sample</code>是官方给的一个简单配置文件, 我们这里复制一份</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp  zoo_sample.cfg  zoo.cfg</span><br></pre></td></tr></table></figure>
+<p><strong>查看该配置文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">vim zoo.cfg</span><br><span class="line"></span><br><span class="line">#这里删除了大量的注解</span><br><span class="line">tickTime&#x3D;2000   </span><br><span class="line">#时间单位&#x2F;毫秒</span><br><span class="line"></span><br><span class="line">initLimit&#x3D;10 		</span><br><span class="line">#初始化同步阶段花费的时间 默认20秒</span><br><span class="line"></span><br><span class="line">syncLimit&#x3D;5   	</span><br><span class="line">#更新同步 默认10秒</span><br><span class="line"></span><br><span class="line">dataDir&#x3D;&#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;single&#x2F;zookepeer&#x2F;data  </span><br><span class="line">#数据目录 这里需要修改成需要的目录，我更新成zk的安装目录下的新建data目录</span><br><span class="line"></span><br><span class="line">clientPort&#x3D;2181</span><br><span class="line">#端口</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h3><p>单机版完事了,下面命令就可以启动和关闭<br><strong>一些简单命令</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#启动</span><br><span class="line">zkServer.sh start</span><br><span class="line"></span><br><span class="line">#查看状态</span><br><span class="line">zkServer.sh status</span><br><span class="line">返回：Mode standalone</span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: &#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;single&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;conf&#x2F;zoo.cfg</span><br><span class="line">Client port found: 2181. Client address: localhost. Client SSL: false.</span><br><span class="line">Mode: standalone</span><br><span class="line"></span><br><span class="line">#关闭</span><br><span class="line">zkServer.sh stop</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="集群版"><a href="#集群版" class="headerlink" title="集群版"></a>集群版</h2><h3 id="基础配置"><a href="#基础配置" class="headerlink" title="基础配置"></a>基础配置</h3><h4 id="文件结构"><a href="#文件结构" class="headerlink" title="文件结构"></a>文件结构</h4><p>先复制个三份在一个文件夹里，下面我展示一下我的文件夹结构。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;cluster下</span><br><span class="line">	zk01</span><br><span class="line">		zookeeper</span><br><span class="line">	zk02</span><br><span class="line">		zookeeper</span><br><span class="line">	zk03</span><br><span class="line">		zookeeper</span><br></pre></td></tr></table></figure>
+<p>说明：<br>    1）zk01 zk02 zk03 代表的是集群里三个不同的zk服务器<br>    2）zk01到03目录下的zookeeper是软链接（可以看成是解压好的zookeeper文件夹<br>    3）这边就不用去更新环境变量了，后面直接在对应文件夹下运行就好了</p>
+<h4 id="配置文件-1"><a href="#配置文件-1" class="headerlink" title="配置文件"></a>配置文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tickTime&#x3D;2000</span><br><span class="line">initLimit&#x3D;10</span><br><span class="line">syncLimit&#x3D;5</span><br><span class="line"></span><br><span class="line">#下面两个是需要改的 改成对应的路径，端口的话我分别改成了是2181 2182 2183</span><br><span class="line">dataDir&#x3D;&#x2F;usr&#x2F;local&#x2F;zookeeper&#x2F;cluster&#x2F;zk01&#x2F;zookeeper&#x2F;data </span><br><span class="line">clientPort&#x3D;2181</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置myid"><a href="#配置myid" class="headerlink" title="配置myid"></a>配置myid</h3><p>这个东西就是集群中每个服务器都有的唯一ID，具体用处后面的博客可能会讲<br>cluster目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">echo 1 &gt; zk01&#x2F;zookeeper&#x2F;data&#x2F;myid</span><br><span class="line">echo 2 &gt; zk02&#x2F;zookeeper&#x2F;data&#x2F;myid</span><br><span class="line">echo 3 &gt; zk03&#x2F;zookeeper&#x2F;data&#x2F;myid</span><br><span class="line">#关于echo命令</span><br><span class="line">#https:&#x2F;&#x2F;blog.csdn.net&#x2F;ENSHADOWER&#x2F;article&#x2F;details&#x2F;82939693</span><br><span class="line"></span><br><span class="line">#下面的命令可以检查是否已经写入</span><br><span class="line">cat zk01&#x2F;zookeeper&#x2F;data&#x2F;myid</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置文件里设置集群的各服务器"><a href="#配置文件里设置集群的各服务器" class="headerlink" title="配置文件里设置集群的各服务器"></a>配置文件里设置集群的各服务器</h3><p>配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server.1&#x3D;127.0.0.1:2881:3881</span><br><span class="line">server.2&#x3D;127.0.0.1:2882:3882</span><br><span class="line">server.3&#x3D;127.0.0.1:2883:3883</span><br><span class="line">#server.myid &#x3D; ip:port1:port2</span><br><span class="line">#port1:连接端口号，数据同步的时候连接用的端口号</span><br><span class="line">#port2:选举端口号，在选举的时候使用</span><br><span class="line">#port1，port2 可以随意设定，只要没被占用就行</span><br><span class="line"></span><br><span class="line">#三个文件分别是8881 8882 8883。这是zk内置的jetty，默认是在8080</span><br><span class="line">admin.serverPort:8881</span><br></pre></td></tr></table></figure>
+
+<p>然后三个文件都改好之后，三个都启动就行了。</p>
+<h3 id="添加Observer"><a href="#添加Observer" class="headerlink" title="添加Observer"></a>添加Observer</h3><p>为了使用Observer模式，在任何想变成Observer模式的配置文件（$ZOOKEEPER_HOME/conf/zoo.cfg）中加入如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">peerType&#x3D;observer</span><br></pre></td></tr></table></figure>
+<p>并在所有Server的配置文件（$ZOOKEEPER_HOME/conf/zoo.cfg）中，配置成Observer模式的server的那行配置追加:observer，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server.1:localhost:2181:3181:observer</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Something-before-start"><span class="toc-number">1.</span> <span class="toc-text">Something before start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单机版本"><span class="toc-number">2.</span> <span class="toc-text">单机版本</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载"><span class="toc-number">2.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件"><span class="toc-number">2.2.</span> <span class="toc-text">配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行"><span class="toc-number">2.3.</span> <span class="toc-text">运行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集群版"><span class="toc-number">3.</span> <span class="toc-text">集群版</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基础配置"><span class="toc-number">3.1.</span> <span class="toc-text">基础配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文件结构"><span class="toc-number">3.1.1.</span> <span class="toc-text">文件结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置文件-1"><span class="toc-number">3.1.2.</span> <span class="toc-text">配置文件</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置myid"><span class="toc-number">3.2.</span> <span class="toc-text">配置myid</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置文件里设置集群的各服务器"><span class="toc-number">3.3.</span> <span class="toc-text">配置文件里设置集群的各服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加Observer"><span class="toc-number">3.4.</span> <span class="toc-text">添加Observer</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&text= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&is_video=false&description= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject= Zookeeper-搭建&body=Check out this article: http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&title= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&name= Zookeeper-搭建&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=http://aosarise.github.io/2020/09/17/Zookeeper-%E6%90%AD%E5%BB%BA/&t= Zookeeper-搭建" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2020 Sarise
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

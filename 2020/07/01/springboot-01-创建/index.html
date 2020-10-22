@@ -14,7 +14,7 @@
 <meta property="og:description" content="Something before start说说SpringBoot，这东西其实我是在springMVC之前学的，第一次开发后端也是用这个东西。它的配置难度低到发指，基本上可以说是即开即用。简单来说是一种基于约定的编程。它的配置方式，也就是底层实现是类似于springMVC的纯注解实现，把一个类当成配置文件。学习SpringBoot是方便后期其他知识的学习。&#x2F;&#x2F;说实话我到现在也不知道先上手spri">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-01T08:24:13.000Z">
-<meta property="article:modified_time" content="2020-07-06T06:40:06.846Z">
+<meta property="article:modified_time" content="2020-08-20T03:12:09.077Z">
 <meta property="article:author" content="Sarise">
 <meta property="article:tag" content="学！">
 <meta property="article:tag" content="backend_java">
@@ -203,7 +203,7 @@
 <p>应用：<code>@Value(&quot;${author.name}&quot;)</code>方式就可以使用。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@RestController</span><br><span class="line">public class PrimaryController &#123;</span><br><span class="line">    @Value(&quot;$&#123;author.name&#125;&quot;)</span><br><span class="line">    String aName;</span><br><span class="line">    @GetMapping(&quot;&#x2F;some&quot;)</span><br><span class="line">    public String someHandle() &#123;</span><br><span class="line">        return aName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="自己写一个新的文件"><a href="#自己写一个新的文件" class="headerlink" title="自己写一个新的文件"></a>自己写一个新的文件</h3><p>resource目录：新创建的文件 <code>custom.properties</code>，在里面写自定义属性</p>
+<h3 id="自己写一个新的文件"><a href="#自己写一个新的文件" class="headerlink" title="自己写一个新的文件"></a>自己写一个新的文件</h3><p>resource目录：新创建的文件 <code>custom.properties</code>，在里面写自定义属性<br>目录展示：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">recource:</span><br><span class="line">	application.properties</span><br><span class="line">	custom.properties</span><br></pre></td></tr></table></figure>
 <p>custom.properties：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">author.name&#x3D; sarise</span><br></pre></td></tr></table></figure>
@@ -230,7 +230,7 @@
 <h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><p>首先写配置文件,以下是目录结构</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resource</span><br><span class="line">	application.properties</span><br><span class="line">	application-dev.properties</span><br><span class="line">	application-pro.properties</span><br></pre></td></tr></table></figure>
 <p>说明：<code>application.properties</code>是总的配置文件，另外两个就是根据实际情况配置的文件，具体不同的地方在于端口或者上下文路径啥的。<br>注意：<code>application-dev.properties</code>中<code>application-</code>部分是固定的，<code>dev</code>部分可以自己定。</p>
-<h3 id="运行环境选择"><a href="#运行环境选择" class="headerlink" title="运行环境选择"></a>运行环境选择</h3><p><code>application.properties</code>文件中选择某具体环境文件。<code>dev</code>就是上面</p>
+<h3 id="运行环境选择"><a href="#运行环境选择" class="headerlink" title="运行环境选择"></a>运行环境选择</h3><p><code>application.properties</code>文件中选择某具体环境文件。<code>dev</code>就是上面的那个名称</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 进行多环境选择</span><br><span class="line">spring.profiles.active&#x3D;dev</span><br></pre></td></tr></table></figure>
 <p>运行时也可以指定使用的配置文件: 俩横杠后面，直接写入命令即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar multen-0.0.1-SNAPSHOT.jar --spring.profiles.active&#x3D;pro</span><br></pre></td></tr></table></figure>

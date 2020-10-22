@@ -14,7 +14,7 @@
 <meta property="og:description" content="1234567891011121314┌────────────────────────────────────────────────────────────┐│_|▨▨▨▨▨▨_|▨▨_|▨▨▨▨▨▨_|▨▨▨▨_|_|_|▨▨▨▨_|_|▨▨▨▨▨▨_|▨▨▨▨▨▨▨▨▨▨▨▨││_|_|▨▨_|_|▨▨▨▨_|▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨_|▨▨▨▨_|▨▨▨▨_|▨▨▨▨▨▨▨▨">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-02-16T02:42:49.000Z">
-<meta property="article:modified_time" content="2020-03-27T01:13:06.244Z">
+<meta property="article:modified_time" content="2020-08-16T03:39:27.497Z">
 <meta property="article:author" content="Sarise">
 <meta property="article:tag" content="学！">
 <meta property="article:tag" content="backend_java">
@@ -198,7 +198,7 @@
 </li>
 <li>外连接 分为左 右 全</li>
 <li><ul>
-<li>左：<code>select * from a left join left b on a.id = b.id</code>。另外两个类似写法</li>
+<li>左：<code>select * from a left join b on a.id = b.id</code>。另外两个类似写法</li>
 </ul>
 </li>
 <li><ul>
@@ -224,6 +224,7 @@
 <li>group by , order by 可用，但没啥意义<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">select a.pid,(select b.pname from products b where b.pid &#x3D; 1 ) from products  a;</span><br><span class="line">+-----+---------------------------------------------------+</span><br><span class="line">| pid | (select b.pname from products b where b.pid &#x3D; 1 ) |</span><br><span class="line">+-----+---------------------------------------------------+</span><br><span class="line">|   1 | 泰国大榴莲                                        |</span><br><span class="line">|   2 | 泰国大榴莲                                        |</span><br><span class="line">|   3 | 泰国大榴莲                                        |</span><br><span class="line">|   4 | 泰国大榴莲                                        |</span><br><span class="line">|   5 | 泰国大榴莲                                        |</span><br><span class="line">|   6 | 泰国大榴莲                                        |</span><br><span class="line">+-----+---------------------------------------------------+</span><br><span class="line"></span><br><span class="line">select a.pname from products a where pid in (select pid from products);</span><br><span class="line">+-----------------+</span><br><span class="line">| pname           |</span><br><span class="line">+-----------------+</span><br><span class="line">| 泰国大榴莲      |</span><br><span class="line">| 新疆大枣        |</span><br><span class="line">| 新疆切糕        |</span><br><span class="line">| 十三香          |</span><br><span class="line">| 老干妈          |</span><br><span class="line">| 泰国大榴莲      |</span><br><span class="line">+-----------------+</span><br></pre></td></tr></table></figure>
 逻辑上来说就是返回一个表，或者一个键值对。我目前还不知道有什么使用场景。</li>
 </ul>
+<p>我来提么，那我的报价只针对我自己，不是和服务外包实验室协商的结果<br>时间的话，我的话预计需要到12月<br>总的费用<br>mq topic资源每月270 api请求资源每月90  云服务器每月80  域名每年大概几十块 看具体注册什么名称 每月大概500以内<br>人工费用 4500</p>
 
   </div>
 </article>
